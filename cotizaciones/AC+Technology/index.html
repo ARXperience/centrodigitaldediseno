@@ -656,11 +656,44 @@
 </script>
 
 
-<!-- Drone + Terrestre (Airbnb) -->
-<div class="video-categoria" data-category="airbnb">
-  <video class="video-preview" src="/assets/contenido-para-redes-sociales/airbnb/canon.mp4"muted loop autoplay playsinline preload="auto"></video>
-  <div class="overlay">Drone + Terrestre (Airbnb)</div>
+
+  <!-- Drone -->
+  <div class="video-categoria" data-category="drone" onmouseover="playVideo(this)" onmouseleave="pauseVideo(this)">
+    <video class="video-preview" 
+           src="https://drive.google.com/uc?export=media&id=1IKa9NWuFQb_fwNJUL39awcCE-Q2pIX1T" 
+           muted loop preload="auto" 
+           style="width: 100%; height: auto; object-fit: cover; display: none;">
+    </video>
+    <img src="/mnt/data/89322744-1c48-48f0-bb95-bb982ee9dfb5.png" alt="Drone Preview" class="video-preview-static" style="width: 100%; height: auto; object-fit: cover; border-radius: 12px;">
+    <div class="overlay">Drone</div>
+  </div>
 </div>
+
+<script>
+  function playVideo(element) {
+    var video = element.querySelector('video');
+    var image = element.querySelector('img');
+    
+    // Mostrar el video y ocultar la imagen estática
+    video.style.display = 'block';
+    image.style.display = 'none';
+    
+    // Reproducir el video
+    video.play();
+  }
+
+  function pauseVideo(element) {
+    var video = element.querySelector('video');
+    var image = element.querySelector('img');
+    
+    // Ocultar el video y mostrar la imagen estática
+    video.style.display = 'none';
+    image.style.display = 'block';
+    
+    // Pausar el video
+    video.pause();
+  }
+</script>
 
 
     <!-- Institucionales -->
@@ -1613,6 +1646,7 @@ const categorias = {
     
     </body>
     </html>
+
 
 
 

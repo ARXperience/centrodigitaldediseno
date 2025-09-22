@@ -617,43 +617,13 @@
   <h2>🎞️ Portafolio de Videos</h2>
 
 <div class="video-categorias">
-  <!-- Drone -->
-  <div class="video-categoria" data-category="drone">
-    <video class="video-preview" 
-           src="https://drive.google.com/file/d/1IKa9NWuFQb_fwNJUL39awcCE-Q2pIX1T/preview" 
-           muted loop preload="auto" 
-           controls>
-    </video>
-    <div class="overlay">Drone</div>
-  </div>
+   <div class="video-categoria" data-category="drone">
+      <iframe src="https://drive.google.com/file/d/1IKa9NWuFQb_fwNJUL39awcCE-Q2pIX1T/preview" 
+              width="1920" height="1080" frameborder="0" allow="autoplay; encrypted-media" >
+      </iframe>
+      <div class="overlay">Drone</div>
+   </div>
 </div>
-
-<script>
-  function playVideo(element) {
-    var video = element.querySelector('video');
-    var image = element.querySelector('img');
-    
-    // Mostrar el video y ocultar la imagen estática
-    video.style.display = 'block';
-    image.style.display = 'none';
-    
-    // Reproducir el video
-    video.play();
-  }
-
-  function pauseVideo(element) {
-    var video = element.querySelector('video');
-    var image = element.querySelector('img');
-    
-    // Ocultar el video y mostrar la imagen estática
-    video.style.display = 'none';
-    image.style.display = 'block';
-    
-    // Pausar el video
-    video.pause();
-  }
-</script>
-
 
 
   <!-- Drone -->
@@ -667,32 +637,6 @@
     <div class="overlay">Drone</div>
   </div>
 </div>
-
-<script>
-  function playVideo(element) {
-    var video = element.querySelector('video');
-    var image = element.querySelector('img');
-    
-    // Mostrar el video y ocultar la imagen estática
-    video.style.display = 'block';
-    image.style.display = 'none';
-    
-    // Reproducir el video
-    video.play();
-  }
-
-  function pauseVideo(element) {
-    var video = element.querySelector('video');
-    var image = element.querySelector('img');
-    
-    // Ocultar el video y mostrar la imagen estática
-    video.style.display = 'none';
-    image.style.display = 'block';
-    
-    // Pausar el video
-    video.pause();
-  }
-</script>
 
 
     <!-- Institucionales -->
@@ -1645,11 +1589,3 @@ const categorias = {
     
     </body>
     </html>
-
-
-
-
-
-
-
-

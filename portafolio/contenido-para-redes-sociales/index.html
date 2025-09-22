@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Planes Community Manager – Centro Digital de Diseño</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F7FA; --card:#FFFFFF; --title:#1F2937; --text:#374151; --muted:#6B7280;
+    --accent:#2563EB; --check:#10B981; --highlight:#4338CA; --shadow:0 8px 24px rgba(0,0,0,.06);
+    --radius:16px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  body{font-family:Montserrat,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; padding:40px 20px}
+  header{text-align:center; margin-bottom:20px;}
+  .logo{max-width:80px; margin:0 auto 36px; display:block;}
+  h1{font-family:Poppins,sans-serif; font-weight:800; font-size:clamp(28px,4vw,38px); text-align:center; margin-bottom:12px; color:var(--title)}
+  .sub{text-align:center; color:var(--muted); font-size:16px; margin-bottom:40px}
+
+  /* GRID CARDS */
+  .grid{display:grid; gap:24px; grid-template-columns:repeat(4,1fr)}
+  @media (max-width:1080px){ .grid{grid-template-columns:repeat(2,1fr)} }
+  @media (max-width:640px){ .grid{grid-template-columns:1fr} }
+.discount-ribbon {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #10B981; /* verde WhatsApp */
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 6px;
+  box-shadow: 0 3px 6px rgba(0,0,0,.15);
+}
+.plan-card {
+  position: relative; /* importante para que el ribbon se posicione dentro de la card */
+}
+
+  .plan-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform .3s, box-shadow .3s, background .3s, color .3s;
+  cursor: pointer;
+}
+
+.plan-card:hover {
+  transform: scale(1.03); /* zoom sutil */
+  box-shadow: 0 14px 36px rgba(0,0,0,.15);
+  background: var(--accent);
+  color: #fff;
+}
+
+.plan-card:hover h2,
+.plan-card:hover .subtitle,
+.plan-card:hover .price,
+.plan-card:hover ul li,
+.plan-card:hover .recursos {
+  color: #fff;
+}
+
+.plan-card:hover ul li::before {
+  color: #fff;
+}
+
+/* Para quitar subrayado si hacemos toda la card un link */
+.plan-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+  .plan-img{width:100%; height:160px; background-size:cover; background-position:center}
+  .plan-content{padding:20px}
+  .plan-card h2{font-family:Poppins,sans-serif; font-size:20px; font-weight:700; color:var(--title); margin:0 0 10px}
+  .subtitle{font-size:15px; font-weight:600; margin-bottom:12px}
+  .price{font-family:Poppins,sans-serif; font-size:22px; font-weight:800; color:var(--accent); margin-bottom:16px}
+  ul{list-style:none; padding:0}
+  ul li{font-size:14px; margin-bottom:8px; display:flex; align-items:center}
+  ul li::before{content:"✔"; color:var(--check); margin-right:8px}
+  .recursos{font-weight:600; color:var(--highlight)}
+
+  /* COMPARE BUTTON */
+  .compare-btn{
+    display:block; margin:36px auto 18px; padding:12px 24px; background:var(--accent); color:#fff;
+    font-family:Poppins,sans-serif; font-weight:600; border:none; border-radius:8px; cursor:pointer; transition:background .3s
+  }
+  .compare-btn:hover{background:#1D4ED8}
+
+  /* COMPARISON TABLE */
+  .comparison{display:none; overflow-x:auto; border-radius:12px; box-shadow:0 6px 16px rgba(0,0,0,.08); background:#fff; margin-top:8px}
+  table{width:100%; border-collapse:collapse; min-width:880px}
+  th,td{padding:16px; text-align:center; font-size:15px; border-bottom:1px solid #E5E7EB}
+  th{background:#2563EB; color:#fff; font-family:Poppins,sans-serif; font-weight:600}
+  th:first-child{background:#1F2937}
+  td:first-child{font-weight:600; text-align:left; color:#1F2937; background:#F9FAFB}
+  .check{color:var(--check); font-size:18px; font-weight:bold}
+  .cross{color:#D1D5DB; font-size:18px; font-weight:bold}
+
+  /* CTA ROW IN TABLE */
+  .cta-row td{background:#F9FAFB}
+  .action-btn{
+    display:inline-block; padding:10px 18px; background:var(--accent); color:#fff; text-decoration:none;
+    font-family:Poppins,sans-serif; font-weight:600; border-radius:8px; transition:background .3s
+  }
+  .action-btn:hover{background:#1D4ED8}
+
+  .note{max-width:960px; margin:10px auto 0; color:#6B7280; font-size:13px; text-align:center}
+</style>
+</head>
+<body>
+  <header>
+    <img src="/assets/imagotipo.png" alt="Centro Digital de Diseño" class="logo">
+    <h1>Community Manager & Contenido para Redes Sociales</h1>
+    <p class="sub">Impulsa tu presencia con gestión profesional. Contenido generado con <strong>IA</strong> y <strong>publicación automática</strong> según tu estrategia.</p>
+  </header>
+
+  <section class="grid" aria-label="Planes">
+  <!-- Plan Esencial -->
+  <a href="pago.html?plan=esencial" class="plan-link">
+    <article class="plan-card">
+  <span class="discount-ribbon">15% OFF clientes nuevos</span>
+  <div class="plan-img" style="background-image:url('/assets/contenido-para-redes-sociales/esencial.png')"></div>
+  <div class="plan-content">
+
+        <h2>Plan Esencial</h2>
+        <p class="subtitle">9 publicaciones + 1 reel · Automatización de publicación.</p>
+        <div class="price">$965,000 COP</div>
+        <ul>
+          <li>Parrilla mensual con estrategia</li>
+          <li>Diseño gráfico profesional</li>
+          <li>Reels editados</li>
+          <li>Copywriting optimizado</li>
+          <li>Hashtags, tendencias y CTA</li>
+          <li class="recursos">Recursos: IA (no requiere grabación)</li>
+        </ul>
+      </div>
+    </article>
+  </a>
+
+  <!-- Plan Intermedio -->
+  <a href="pago.html?plan=intermedio" class="plan-link">
+    <article class="plan-card">
+        <span class="discount-ribbon">15% OFF clientes nuevos</span>
+      <div class="plan-img" style="background-image:url('/assets/contenido-para-redes-sociales/intermedio.png')"></div>
+      <div class="plan-content">
+        <h2>Plan Intermedio</h2>
+        <p class="subtitle">12 publicaciones + 3 reels · Automatización de publicación con fechas.</p>
+        <div class="price">$1,496,000 COP</div>
+        <ul>
+          <li>Parrilla mensual con estrategia</li>
+          <li>Diseño gráfico profesional</li>
+          <li>Reels editados</li>
+          <li>Copywriting optimizado</li>
+          <li>Hashtags, tendencias y CTA</li>
+          <li class="recursos">Recursos: IA profesional (no se graba)</li>
+        </ul>
+      </div>
+    </article>
+  </a>
+
+  <!-- Plan Premium -->
+  <a href="pago.html?plan=premium" class="plan-link">
+    <article class="plan-card">
+        <span class="discount-ribbon">15% OFF clientes nuevos</span>
+      <div class="plan-img" style="background-image:url('/assets/contenido-para-redes-sociales/premium.png')"></div>
+      <div class="plan-content">
+        <h2>Plan Premium</h2>
+        <p class="subtitle">15 publicaciones + 6 reels · Automatización de publicaciones + comentarios <strong>o</strong> mensajes.</p>
+        <div class="price">$1,866,000 COP</div>
+        <ul>
+          <li>Parrilla mensual con estrategia</li>
+          <li>Diseño gráfico profesional</li>
+          <li>Reels editados</li>
+          <li>Copywriting optimizado</li>
+          <li>Hashtags, tendencias y CTA</li>
+          <li class="recursos">Recursos: Grabación con cámara terrestre + IA</li>
+        </ul>
+      </div>
+    </article>
+  </a>
+
+  <!-- Plan Ilimitado -->
+  <a href="pago.html?plan=ilimitado" class="plan-link">
+    <article class="plan-card">
+        <span class="discount-ribbon">15% OFF clientes nuevos</span>
+      <div class="plan-img" style="background-image:url('/assets/contenido-para-redes-sociales/elite.png')"></div>
+      <div class="plan-content">
+        <h2>Plan Ilimitado</h2>
+        <p class="subtitle">Publicaciones diarias · Automatización completa (publicación, comentarios y mensajes).</p>
+        <div class="price">$3,120,000 COP</div>
+        <ul>
+          <li>Parrilla mensual con estrategia</li>
+          <li>Diseño gráfico profesional</li>
+          <li>Reels editados</li>
+          <li>Copywriting optimizado</li>
+          <li>Hashtags, tendencias y CTA</li>
+          <li class="recursos">Recursos: IA + fílmicos, cámara terrestre y drone</li>
+        </ul>
+      </div>
+    </article>
+  </a>
+</section>
+
+
+  <!-- Botón para abrir/cerrar comparador -->
+  <button id="compareToggle" class="compare-btn" aria-expanded="false" aria-controls="comparison">Comparar planes</button>
+
+  <!-- COMPARACIÓN -->
+  <div id="comparison" class="comparison" role="region" aria-label="Cuadro comparativo de planes">
+    <table>
+      <thead>
+        <tr>
+          <th>Características</th>
+          <th>Esencial</th>
+          <th>Intermedio</th>
+          <th>Premium</th>
+          <th>Ilimitado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Publicaciones / mes</td>
+          <td>9 + 1 reel</td>
+          <td>12 + 3 reels</td>
+          <td>15 + 6 reels</td>
+          <td>Diarias</td>
+        </tr>
+        <tr><td>Parrilla mensual con estrategia</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
+        <tr><td>Diseño gráfico profesional</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
+        <tr><td>Reels editados</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
+        <tr><td>Copywriting optimizado</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
+        <tr><td>Hashtags, tendencias y CTA</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
+        <tr><td>Automatización de publicaciones</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
+        <tr><td>Automatización de mensajes</td><td class="cross">✖</td><td class="cross">✖</td><td class="check">✔</td><td class="check">✔</td></tr>
+        <tr><td>Automatización de comentarios</td><td class="cross">✖</td><td class="cross">✖</td><td class="check">✔</td><td class="check">✔</td></tr>
+        <tr><td>Automatización completa (publi + com + msg)</td><td class="cross">✖</td><td class="cross">✖</td><td class="cross">✖</td><td class="check">✔</td></tr>
+        <tr><td>Recursos con IA</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
+        <tr><td>Grabación cámara terrestre</td><td class="cross">✖</td><td class="cross">✖</td><td class="check">✔</td><td class="check">✔</td></tr>
+        <tr><td>Grabación con drone</td><td class="cross">✖</td><td class="cross">✖</td><td class="cross">✖</td><td class="check">✔</td></tr>
+        <tr>
+          <td><strong>Precio</strong></td>
+          <td><strong>$965,000</strong></td>
+          <td><strong>$1,496,000</strong></td>
+          <td><strong>$1,866,000</strong></td>
+          <td><strong>$3,120,000</strong></td>
+        </tr>
+        <!-- CTA ROW -->
+        <tr class="cta-row">
+          <td></td>
+          <td><a class="action-btn" href="pago.html?plan=esencial">Contratar</a></td>
+          <td><a class="action-btn" href="pago.html?plan=intermedio">Contratar</a></td>
+          <td><a class="action-btn" href="pago.html?plan=premium">Contratar</a></td>
+          <td><a class="action-btn" href="pago.html?plan=ilimitado">Contratar</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note">Nota: En <strong>Premium</strong> la automatización incluye <em>comentarios o mensajes</em> (uno de los dos, a elección). En <strong>Ilimitado</strong> es automatización completa.</p>
+
+  <script>
+    const btn = document.getElementById('compareToggle');
+    const panel = document.getElementById('comparison');
+    btn.addEventListener('click', () => {
+      const open = panel.style.display === 'block';
+      panel.style.display = open ? 'none' : 'block';
+      btn.setAttribute('aria-expanded', String(!open));
+      btn.textContent = open ? 'Comparar planes' : 'Ocultar comparación';
+    });
+  </script>
+</body>
+</html>

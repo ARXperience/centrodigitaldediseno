@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout – Centro Digital de Diseño</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: #f3f4f6;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+  }
+  .checkout-container {
+    display: flex;
+    max-width: 960px;
+    width: 100%;
+    background: #fff;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 40px;
+  }
+  /* Columna izquierda */
+  .summary {
+    flex: 1;
+    background: #f9fafb;
+    padding: 30px;
+    border-right: 1px solid #e5e7eb;
+  }
+  .logo { max-width: 160px; margin-bottom: 20px; }
+  .summary h2 { font-family: 'Poppins', sans-serif; font-size: 22px; margin-bottom: 12px; color: #0A3D91; }
+  .summary p { font-size: 15px; margin-bottom: 8px; color: #374151; }
+  .total { margin-top: 12px; font-size: 20px; font-weight: 700; color: #0A3D91; }
+  .plan-img { width: 100%; border-radius: 12px; margin-top: 20px; box-shadow: 0 6px 18px rgba(0,0,0,0.1); }
+  /* Columna derecha */
+  .form { flex: 1; padding: 30px; }
+  .form h2 { font-family: 'Poppins', sans-serif; font-size: 20px; margin-bottom: 20px; color: #111827; }
+  label { font-size: 14px; font-weight: 600; display: block; margin-bottom: 6px; color: #374151; }
+  input, select {
+    width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; margin-bottom: 16px; font-size: 15px;
+  }
+  input:focus, select:focus { border-color: #0A3D91; outline: none; }
+  button {
+    width: 100%; padding: 14px; background: #0A3D91; color: #fff; font-size: 16px; font-weight: 600;
+    border: none; border-radius: 8px; cursor: pointer; transition: background .3s;
+  }
+  button:hover { background: #092c68; }
+  /* Calendario desplegable */
+  .calendar-box {
+    display: none;
+    margin-top: 20px;
+    padding: 20px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);
+  }
+  .calendar-box h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    margin-bottom: 16px;
+    color: #0A3D91;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+  <div class="checkout-container">
+    <!-- Resumen -->
+    <div class="summary" id="plan-info">
+      <img src="/assets/logotipo.png" alt="Centro Digital de Diseño" class="logo">
+    </div>
+
+    <!-- Formulario -->
+    <div class="form">
+      <h2>Tus datos</h2>
+      <form id="checkoutForm">
+        <div>
+          <label for="nombre">Nombre completo</label>
+          <input type="text" id="nombre" name="nombre" required>
+        </div>
+        <div>
+          <label for="correo">Correo electrónico</label>
+          <input type="email" id="correo" name="correo" required>
+        </div>
+        <div>
+          <label for="whatsapp">Número de WhatsApp</label>
+          <input type="tel" id="whatsapp" name="whatsapp" required placeholder="Ej: 3001234567">
+        </div>
+        <button type="submit" id="btnSubmit">Contratar ahora</button>
+      </form>
+
+      <!-- Botón para agendar -->
+      <button style="margin-top:12px;background:#10B981" onclick="toggleCalendar()">Agendar una reunión virtual</button>
+
+      <!-- Calendario -->
+      <div class="calendar-box" id="calendarBox">
+        <h3>Selecciona tu fecha y hora</h3>
+        <label for="fecha">Día</label>
+        <input type="date" id="fecha" required>
+        <label for="hora">Hora</label>
+        <input type="time" id="hora" required>
+        <label for="pais">País</label>
+        <select id="pais" required>
+          <option value="">Seleccione...</option>
+          <option value="Colombia">Colombia</option>
+          <option value="México">México</option>
+          <option value="Argentina">Argentina</option>
+          <option value="España">España</option>
+          <option value="Otro">Otro</option>
+        </select>
+        <button onclick="agendarReunion()">Agendar esta fecha</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const plan = params.get("plan");
+
+    const plans = {
+      esencial: {
+        nombre: "Plan Esencial",
+        precio: "$965,000 COP",
+        detalles: ["9 publicaciones + 1 reel","Automatización de publicación (IA)","Recursos 100% IA"],
+        imagen: "/assets/contenido-para-redes-sociales/esencial.png"
+      },
+      intermedio: {
+        nombre: "Plan Intermedio",
+        precio: "$1,496,000 COP",
+        detalles: ["12 publicaciones + 3 reels","Automatización con fechas programadas","Recursos IA profesional"],
+        imagen: "/assets/contenido-para-redes-sociales/intermedio.png"
+      },
+      premium: {
+        nombre: "Plan Premium",
+        precio: "$1,866,000 COP",
+        detalles: ["15 publicaciones + 6 reels","Automatización de publicaciones","Automatización de comentarios o mensajes","Grabación con cámara terrestre + IA"],
+        imagen: "/assets/contenido-para-redes-sociales/premium.png"
+      },
+      ilimitado: {
+        nombre: "Plan Ilimitado",
+        precio: "$3,120.000 COP",
+        detalles: ["Publicaciones diarias personalizadas","Hasta 10 reels mensuales","Automatización completa (publi, com, msg)","Recursos IA + fílmicos, cámara terrestre y drone"],
+        imagen: "/assets/contenido-para-redes-sociales/elite.png"
+      }
+    };
+
+    const planInfo = document.getElementById("plan-info");
+    let planSeleccionado = null;
+    if (plan && plans[plan]) {
+      planSeleccionado = plans[plan];
+      planInfo.innerHTML += `
+        <h2>${planSeleccionado.nombre}</h2>
+        ${planSeleccionado.detalles.map(d => `<p>• ${d}</p>`).join("")}
+       
+        <img src="${planSeleccionado.imagen}" alt="${planSeleccionado.nombre}" class="plan-img">
+      `;
+      document.getElementById("btnSubmit").innerText = `Contratar ${planSeleccionado.precio}`;
+    }
+
+    // Botón Contratar directo
+    document.getElementById("checkoutForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const nombre = document.getElementById("nombre").value;
+      const correo = document.getElementById("correo").value;
+      const whatsapp = document.getElementById("whatsapp").value;
+
+      const mensaje = `Hola, soy ${nombre}. Quiero contratar el ${planSeleccionado.nombre} (${planSeleccionado.precio}).
+📧 Correo: ${correo}
+📱 WhatsApp: ${whatsapp}`;
+      const url = `https://wa.me/573202608864?text=${encodeURIComponent(mensaje)}`;
+      window.open(url, "_blank");
+    });
+
+    // Mostrar/ocultar calendario
+    function toggleCalendar() {
+      const box = document.getElementById("calendarBox");
+      box.style.display = (box.style.display === "block") ? "none" : "block";
+    }
+
+    // Enviar datos de reunión
+    function agendarReunion() {
+      const nombre = document.getElementById("nombre").value;
+      const correo = document.getElementById("correo").value;
+      const whatsapp = document.getElementById("whatsapp").value;
+      const fecha = document.getElementById("fecha").value;
+      const hora = document.getElementById("hora").value;
+      const pais = document.getElementById("pais").value;
+
+      if (!nombre || !correo || !whatsapp || !fecha || !hora || !pais) {
+        alert("Por favor completa todos los campos.");
+        return;
+      }
+
+      const mensaje = `Hola, soy ${nombre}. Me interesa el ${planSeleccionado.nombre} (${planSeleccionado.precio}).
+📧 Correo: ${correo}
+📱 WhatsApp: ${whatsapp}
+🗓️ Solicito una reunión virtual el ${fecha} a las ${hora} (${pais}).`;
+
+      const url = `https://wa.me/573202608864?text=${encodeURIComponent(mensaje)}`;
+      window.open(url, "_blank");
+    }
+  </script>
+</body>
+</html>

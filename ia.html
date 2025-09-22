@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mi IA Local</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      padding: 20px;
+    }
+    h1 {
+      color: #333;
+    }
+    #chatbox {
+      background: #fff;
+      padding: 15px;
+      border: 1px solid #ccc;
+      height: 300px;
+      overflow-y: auto;
+      margin-bottom: 15px;
+    }
+    input[type="text"] {
+      padding: 10px;
+      font-size: 16px;
+      width: 75%;
+    }
+    button {
+      padding: 10px;
+      font-size: 16px;
+      margin-left: 5px;
+    }
+    #controls {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🤖 IA Local Entrenable</h1>
+
+  <div id="chatbox">
+    <p><strong>IA:</strong> Hola, ¿en qué puedo ayudarte?</p>
+  </div>
+
+  <input type="text" id="userInput" placeholder="Escribe tu pregunta..." />
+  <button onclick="enviarPregunta()">Enviar</button>
+
+  <div id="controls">
+    <input type="text" id="urlInput" placeholder="Pega una URL para entrenarme..." />
+    <button onclick="entrenarDesdeURL()">Entrenar</button>
+    <button onclick="limpiarMemoria()">🧹 Limpiar Memoria</button>
+  </div>
+
+  <script src="ia.js"></script>
+</body>
+</html>

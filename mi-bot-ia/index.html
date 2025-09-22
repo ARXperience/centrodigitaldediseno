@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chat con IA</title>
+  <style>
+    :root{
+      --bg:#f3f5f7; --card:#ffffff; --border:#e5e7eb; --text:#0f172a;
+      --brand:#16a34a; --brand-hover:#15803d; --user:#dbeafe; --bot:#f1f5f9;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; background:var(--bg); color:var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      display:flex; min-height:100vh; align-items:center; justify-content:center;
+      padding:24px;
+    }
+    .app{
+      width:100%; max-width:800px; background:var(--card); border:1px solid var(--border);
+      border-radius:14px; box-shadow:0 8px 24px rgba(15,23,42,.06); overflow:hidden;
+      display:flex; flex-direction:column; min-height:70vh;
+    }
+    header{
+      padding:16px 20px; border-bottom:1px solid var(--border);
+      display:flex; align-items:center; gap:10px;
+    }
+    header h1{font-size:18px; margin:0}
+    .chat{
+      padding:18px; overflow:auto; flex:1;
+      display:flex; flex-direction:column; gap:12px;
+      background:linear-gradient(180deg,#fafafa 0%, #fff 100%);
+    }
+    .bubble{
+      max-width:78%; padding:12px 14px; border-radius:12px; line-height:1.45;
+      box-shadow:0 2px 8px rgba(2,6,23,.06); border:1px solid var(--border);
+      white-space:pre-wrap; word-wrap:break-word;
+    }
+    .user{ align-self:flex-end; background:var(--user); }
+    .bot{ align-self:flex-start; background:var(--bot); }
+    .meta{ font-size:12px; opacity:.6; margin-top:4px }
+    .inputbar{
+      border-top:1px solid var(--border); padding:12px; display:flex; gap:10px; background:#fff;
+    }
+    .inputbar input{
+      flex:1; padding:12px 14px; font-size:16px; border:1px solid var(--border);
+      border-radius:10px; outline:none;
+    }
+    .inputbar button{
+      padding:12px 18px; background:var(--brand); color:#fff; border:none; border-radius:10px;
+      font-weight:600; cursor:pointer;
+    }
+    .inputbar button:disabled{ opacity:.6; cursor:not-allowed }
+    .inputbar button:hover{ background:var(--brand-hover) }
+    .typing{ font-size:13px; opacity:.7 }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2l3 7h7l-5.5 4 2 7L12 17 5.5 20l2-7L2 9h7l3-7z" fill="#16a34a"/></svg>
+      <h1>Asistente IA</h1>
+    </header>
+
+    <div id="chat" class="chat"></div>
+
+    <div class="inputbar">
+      <input id="msg" type="text" placeholder="Escribe tu mensaje y presiona Enter…" autocomplete="off" />
+      <button id="send">Enviar</button>
+    </div>
+  </div>
+
+  <script>
+    // 🔗 PON AQUÍ TU BACKEND DE RENDER:
+    const BACKEND_URL = "https://mi-bot-ia-rs9c.onrender.com"; // <-- cambia si usas otro
+
+    const chat = document.getElementById('chat');
+    const msg  = document.getElementById('msg');
+    const send = document.getElementById('send');
+
+    // Mensaje de bienvenida
+    addBubble("¡Hola! Soy tu asistente. Escríbeme algo para empezar 😊", "bot");
+
+    function addBubble(text, who = "bot"){
+      const wrap = document.createElement('div');
+      const b = document.createElement('div');
+      b.className = `bubble ${who}`;
+      b.textContent = text;
+      wrap.appendChild(b);
+      chat.appendChild(wrap);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function setTyping(on){
+      if(on){
+        const t = document.createElement('div');
+        t.id = "typing";
+        t.className = "typing";
+        t.textContent = "La IA está escribiendo…";
+        chat.appendChild(t);
+        chat.scrollTop = chat.scrollHeight;
+      }else{
+        const t = document.getElementById('typing');
+        if(t) t.remove();
+      }
+    }
+
+    async function askAI(question){
+      setTyping(true);
+      send.disabled = true;
+      msg.disabled = true;
+
+      try{
+        const r = await fetch(`${BACKEND_URL}/api/gemini`, {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({ message: question })
+        });
+
+        const data = await r.json();
+        const text = data.response || data.message || data.error || "No pude generar respuesta.";
+        addBubble(text, "bot");
+      }catch(e){
+        console.error(e);
+        addBubble("Error conectando con el servidor. Intenta de nuevo.", "bot");
+      }finally{
+        setTyping(false);
+        send.disabled = false;
+        msg.disabled = false;
+        msg.focus();
+      }
+    }
+
+    async function sendMsg(){
+      const q = msg.value.trim();
+      if(!q) return;
+      addBubble(q, "user");
+      msg.value = "";
+      askAI(q);
+    }
+
+    send.addEventListener('click', sendMsg);
+    msg.addEventListener('keydown', (e)=>{ if(e.key==="Enter"){ e.preventDefault(); sendMsg(); }});
+  </script>
+</body>
+</html>

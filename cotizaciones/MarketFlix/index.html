@@ -1,0 +1,453 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cotización – Desarrollo y Actualizaciones MarketFlix</title>
+  <style>
+    :root{
+      --bg:#F5F7FA;--card:#FFFFFF;--title:#003779;--text:#1F2937;--muted:#6B7280;--ok:#10B981;--warn:#B45309;--accent:#2563EB;
+      --shadow:0 10px 24px rgba(0,0,0,.08);--radius:16px
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial}
+    header{padding:28px 20px 8px}
+    h1{margin:0;text-align:center;color:var(--title);font-size:28px}
+    .wrap{max-width:1000px;margin:0 auto;padding:20px}
+    .note,.small{color:var(--muted);font-size:14px}
+    .grid{display:grid;gap:18px}
+    @media(min-width:860px){.grid{grid-template-columns:1fr 1fr}}
+    .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+    .card h2{margin:.2rem 0 .6rem;color:var(--title);font-size:20px}
+    .badge{display:inline-block;background:#E5F2FF;border:1px solid #CFE4FF;color:#0F3A7A;padding:2px 8px;border-radius:999px;font-size:12px;margin-right:6px}
+    .price{font-weight:700;color:var(--ok)}
+    .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+    label{font-weight:600}
+    input[type="number"]{width:120px;padding:8px;border:1px solid #E5E7EB;border-radius:10px}
+    input[type="checkbox"]{transform:scale(1.1)}
+    details{border:1px dashed #E5E7EB;border-radius:12px;padding:8px;margin-top:10px}
+    details[open]{background:#FBFDFF}
+    summary{cursor:pointer;font-weight:600;color:#0F3A7A}
+    .totals{position:sticky;bottom:0;background:rgba(255,255,255,.92);backdrop-filter:saturate(1.2) blur(6px);padding:14px 18px;border-top:1px solid #EEF2F7;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
+    .totals strong{font-size:18px;color:var(--title)}
+    .btn{background:var(--accent);color:#fff;border:0;border-radius:12px;padding:10px 14px;font-weight:600;cursor:pointer}
+    .est{background:#F8FAFC;border:1px solid #E5E7EB;border-radius:12px;padding:10px;margin-top:10px}
+    .hr{height:1px;background:#EEF2F7;margin:14px 0}
+    .tag{font-size:12px;color:#334155;background:#E2E8F0;border-radius:999px;padding:2px 8px;margin-right:6px}
+    ul{margin:.3rem 0 .8rem 1.2rem}
+    li{margin:.2rem 0}
+    .warn{color:var(--warn);font-weight:600}
+  </style>
+</head>
+<body>
+<header>
+  <h1>Cotización – Desarrollo y Actualizaciones para MarketFlix</h1>
+  <p class="note" style="text-align:center">
+    Documento interactivo: activa/desactiva módulos y ajusta cantidades. 
+  </p>
+</header>
+
+<div class="wrap grid">
+
+  <!-- 1. Evaluaciones por curso -->
+  <section class="card" id="card-eval">
+    <h2>1) Integración de sistema de evaluación <span class="badge">Por curso</span></h2>
+    <p>Se añade una evaluación por curso. Al aprobar con <strong>10/10</strong> se habilita el botón para certificado.</p>
+    <div class="row">
+      <label><input type="checkbox" id="chkEval" checked> Incluir</label>
+      <label>Cursos a actualizar: <input type="number" id="qtyEval" min="0" step="1" value="15"></label>
+      <span class="price" data-unit="30000">$30.000 COP / curso</span>
+      <span id="subEval" class="small"></span>
+    </div>
+ <details>
+        <summary>¿Qué haremos exactamente?</summary>
+        <ul>
+          <li>Diseño/interfaz de preguntas y validación de respuestas.</li>
+          <li>Banco de preguntas configurado para cada curso (1 evaluación por curso).</li>
+          <li>Regla de aprobación: <strong>10/10</strong> respuestas correctas para desbloquear el certificado.</li>
+          <li>Registro del resultado por usuario.</li>
+          <li>QA: pruebas con usuarios de prueba y reporte de funcionamiento.</li>
+        </ul>
+        <span class="tag">Dependencias: acceso al código y BD</span>
+        <span class="tag">Entrega: evaluación funcional por curso</span>
+      </details>
+    </section>
+
+
+  <!-- 2. Certificado automático -->
+  <section class="card">
+    <h2>2) Certificado automático en PDF <span class="badge">Precio fijo</span></h2>
+    <p>Tras aprobar la evaluación, un botón gatilla el proceso invisible para el usuario y descarga un PDF con los datos personalizados.</p>
+    <div class="row">
+      <label><input type="checkbox" id="chkCert" checked> Incluir</label>
+      <span class="price">$780.000 COP</span>
+    </div>
+ <details>
+        <summary>Flujo técnico</summary>
+        <ul>
+          <li>Diseño de la <strong>plantilla de certificado</strong> (imagen base).</li>
+          <li>Script que inserta datos (nombre, cédula, curso) en la plantilla.</li>
+          <li>Renderizado automático a <strong>PDF</strong>.</li>
+          <li>Descarga inmediata para el usuario (sin mostrar el proceso intermedio).</li>
+          <li>QA: pruebas con casos reales y verificación de datos impresos.</li>
+        </ul>
+        <span class="tag">Datos requeridos: nombre, cédula, curso</span>
+        <span class="tag">Marca: MarketFlix</span>
+      </details>
+  </section>
+
+  <!-- 3. Interfaces por plan -->
+  <section class="card" id="card-interfaces">
+    <h2>3) Interfaces por plan (Marketing Digital / Ofimática)</h2>
+    <p>Dos nuevas interfaces que muestran únicamente los cursos del plan correspondiente.</p>
+    <div class="row">
+      <label><input type="checkbox" id="chkInterfaces" checked> Incluir interfaces</label>
+      <span class="price">$800.000 COP</span>
+    </div>
+      <details>
+        <summary>Alcance y tareas</summary>
+        <ul>
+          <li>Diseño y maquetación responsive de <strong>2 interfaces</strong> (MD y Ofimática).</li>
+          <li>Listado de cursos filtrado por plan, con <strong>descripción</strong> y <strong>botón</strong> a la reproducción.</li>
+          <li>Optimización de assets para <strong>carga rápida</strong>.</li>
+          <li>QA: pruebas de navegación en desktop y móvil.</li>
+        </ul>
+        <span class="tag">Entrega: 2 interfaces listas para producción</span>
+      </details>
+
+    <div class="hr"></div>
+
+    <h3>Conexión de perfiles según plan</h3>
+    <p>Desde la <strong>creación de usuario</strong> se asigna un plan y se restringe/redirige el acceso a su interfaz (Ofimática o Marketing Digital). Conexión entre <em>interfaz de alta</em> → <em>base de datos</em> → <em>inicio por plan</em>.</p>
+    <div class="row">
+      <label><input type="checkbox" id="chkConexion" checked> Incluir</label>
+      <span class="price">$550.000 COP</span>
+    </div>
+ <details>
+        <summary>Flujo técnico</summary>
+        <ul>
+          <li>Asignación automática de plan al crear el usuario.</li>
+          <li>Restricción de acceso para que solo vea su interfaz.</li>
+          <li>Redirección automática a la interfaz correcta tras iniciar sesión.</li>
+          <li>QA: pruebas de permisos y redirecciones.</li>
+        </ul>
+        <span class="tag">Entrega: flujo de acceso por plan</span>
+      </details>
+
+    <div class="hr"></div>
+
+    <h3>Videos de portada por interfaz <span class="badge">Por video</span></h3>
+    <p>Cada <strong>video de portada</strong> incluye: versión escritorio + móvil, <strong>descripción</strong> y <strong>botón</strong> al curso, con <strong>optimización</strong> de peso/calidad.</p>
+    <div class="row">
+      <label>Videos a producir: <input type="number" id="qtyVideosInterfaces" min="0" step="1" value="0"></label>
+      <span class="price" data-unit="100000">$100.000 COP / video</span>
+      <span id="subVideosInterfaces" class="small"></span>
+    </div>
+ <div class="est small">Recomendado de referencia: <strong>3 videos por interfaz</strong> (6 en total).</span></div>
+  </section>
+
+  <!-- 4. Confirmación por correo -->
+  <section class="card">
+    <h2>4) Confirmación automática por correo <span class="badge">Precio fijo</span></h2>
+    <p>Al crear el usuario se envía un email con su información y plan asignado. Plantilla responsive + script de reemplazo de datos + disparador automático.</p>
+    <div class="row">
+      <label><input type="checkbox" id="chkEmail" checked> Incluir</label>
+      <span class="price">$650.000 COP</span>
+    </div>
+  <details>
+        <summary>Detalles y buenas prácticas</summary>
+        <ul>
+          <li>Plantilla HTML responsive (móvil/desktop).</li>
+          <li>Webhook/trigger para envío automático al crear usuario.</li>
+          <li>Variables: nombre, correo, plan, instrucciones de acceso.</li>
+          <li>Configuración de <strong>SPF/DKIM</strong> para mejorar entregabilidad (No lo entrega como Spam).</li>
+        </ul>
+        <span class="tag">Entrega: correo de bienvenida operativo</span>
+      </details>
+  </section>
+
+  <!-- 5. Botón de enlaces por video -->
+  <section class="card">
+    <h2>5) Botón de enlaces debajo del video <span class="badge">Por video</span></h2>
+    <p>Se añadirá un botón con <strong>enlace personalizado</strong> (p. ej., ChatGPT u otras herramientas según la temática). Incluye además quitar la palabra <em>“temas”</em> de los botones existentes.</p>
+    <div class="row">
+      <label>Videos a actualizar: <input type="number" id="qtyBotonEnlace" min="0" step="1" value="0"></label>
+      <span class="price" data-unit="3000">$3.000 COP / video</span>
+      <span id="subBotonEnlace" class="small"></span>
+    </div>
+<details>
+        <summary>Requisitos</summary>
+        <ul>
+          <li>El cliente entrega la lista de URLs por video.</li>
+          <li>Se integra en el código existente y se valida funcionamiento.</li>
+        </ul>
+      </details>
+  </section>
+
+  <!-- 6. Cuadro de texto desplegable -->
+  <section class="card">
+    <h2>6) Cuadro de texto desplegable (prompts / info)</h2>
+    <p>Un botón debajo del video despliega un cuadro con información (ej.: <em>prompt</em> usado para generar el video, textos, recursos, etc.).</p>
+    <div class="row">
+      <label><input type="checkbox" id="chkDesplegable" checked> Incluir desarrollo del script</label>
+      <span class="price">$400.000 COP</span>
+    </div>
+ <details>
+        <summary>Alcance</summary>
+        <ul>
+          <li>Desarrollo del componente: botón + panel desplegable accesible.</li>
+          <li>Estilos consistentes con la plataforma, comportamiento expandir/colapsar.</li>
+          <li>QA: pruebas en desktop/móvil.</li>
+        </ul>
+        <span class="tag">Entrega: script base listo</span>
+      </details>
+    <div class="row" style="margin-top:8px">
+      <label>Integración por video: <input type="number" id="qtyDesplegableVideos" min="0" step="1" value="0"></label>
+      <span class="price" data-unit="2000">$2.000 COP / video</span>
+      <span id="subDesplegableVideos" class="small"></span>
+    </div>
+  </section>
+
+  <!-- 7. Cambio de video existente -->
+  <section class="card">
+    <h2>7) Cambio de video existente</h2>
+    <p>Reemplazo del video actual manteniendo diseño, descripción y botón.</p>
+    <div class="row">
+      <label><input type="checkbox" id="chkCambioVideo" checked> Incluir</label>
+      <span class="price">$80.000 COP</span>
+    </div>
+<details>
+        <summary>Consideraciones</summary>
+        <ul>
+          <li>Se conserva la estructura; solo se reemplaza el asset de video (incluye versión de escritorio+móvil) actualización de descripción y enlace de botón.</li>
+          <li>Optimización de peso para carga rápida.</li>
+        </ul>
+      </details>
+  </section>
+
+  <!-- 8. Cambio de contraseña -->
+  <section class="card">
+    <h2>8) Cambio de contraseña por el usuario</h2>
+    <p>Botón “Cambiar contraseña” con card para ingresar y validar la nueva clave.</p>
+    <div class="row">
+      <label><input type="checkbox" id="chkPassword" checked> Incluir</label>
+      <span class="price">$450.000 COP</span>
+    </div>
+<details>
+        <summary>Detalles técnicos</summary>
+        <ul>
+          <li>Interfaz modal/card accesible con confirmación.</li>
+          <li>Actualización en BD con <strong>hash seguro</strong> (p. ej., bcrypt).</li>
+          <li>Validaciones de fuerza mínima y coincidencia.</li>
+          <li>QA: flujos de éxito/errores y mensajes al usuario.</li>
+        </ul>
+        <span class="tag">Entrega: módulo funcional</span>
+      </details>
+  </section>
+
+<!-- Requisitos, notas importantes y condiciones de trabajo -->
+<section class="card" style="grid-column:1/-1">
+  <h2>Requisitos del cliente</h2>
+  <ul>
+    <li>Enlaces a integrar por video (para el botón de enlaces).</li> 
+<li>Descripciones  y notas adicionales de cada video (para integración en barra de desplazamiento.</li> 
+    <li>Correo remitente y credenciales/servicio de envío (o API) para las confirmaciones por email.</li>
+  </ul>
+
+  <div class="hr"></div>
+
+  <h2>Notas importantes del proyecto</h2>
+  <ul>
+    <li>El proyecto inicia con un <strong>abono del 50%</strong> del valor total.</li>
+    <li>El siguiente 50% se cancela cuando se entreguen los cambios realizados y aprobados.</li>
+    <li>Antes de comenzar se definirá un <strong>diseño inicial</strong> como plantilla base para el desarrollo.</li>
+    <li>Cualquier cambio adicional al diseño acordado, ya sea durante el proceso o al finalizar, se <strong>cotizará y cobrará aparte</strong>.</li>
+  </ul>
+
+  <div class="hr"></div>
+
+  <h2>Supuestos y no incluidos</h2>
+  <ul>
+    <li>Los ítems <strong>por video</strong> se cobran según volumen real (según cantidades finales definidas).</li>
+    <li>La configuración de DNS (SPF/DKIM) para correos se recomienda, pero no está incluida salvo que se solicite.</li>
+    <li>No se incluyen desarrollos fuera de este alcance ni rediseños completos. Cambios mayores se cotizan aparte.</li>
+
+
+  </ul>
+</section>
+
+</div>
+
+<div class="totals">
+  <div>
+    <strong>Total formal actual:</strong>
+    <span id="totalFormal" style="margin-left:8px">$0</span>
+  </div>
+  <div style="display:flex;gap:10px">
+    <button class="btn" onclick="generatePDF()">Imprimir / Guardar PDF</button>
+    <button class="btn" style="background:#25D366" onclick="sendWhatsApp()">Enviar por WhatsApp</button>
+  </div>
+</div>
+
+<script>
+  const fmt = new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0});
+
+  const items = [
+    { id:'chkEval', qty:'qtyEval', type:'per', unit:30000, sub:'subEval', name:'Evaluaciones por curso' },
+    { id:'chkCert', type:'fixed', amount:780000, name:'Certificado automático en PDF' },
+    { id:'chkInterfaces', type:'fixed', amount:800000, name:'Interfaces por plan' },
+    { id:'chkConexion', type:'fixed', amount:550000, name:'Conexión de perfiles según plan' },
+    { id:'chkEmail', type:'fixed', amount:650000, name:'Confirmación automática por correo' },
+    { id:'chkDesplegable', type:'fixed', amount:400000, name:'Script cuadro de texto desplegable' },
+    { id:'chkCambioVideo', type:'fixed', amount:80000, name:'Cambio de video existente' },
+    { id:'chkPassword', type:'fixed', amount:450000, name:'Cambio de contraseña' },
+    { qty:'qtyVideosInterfaces', type:'per', unit:100000, sub:'subVideosInterfaces', name:'Videos de portada por interfaz' },
+    { qty:'qtyBotonEnlace', type:'per', unit:3000, sub:'subBotonEnlace', name:'Botón de enlaces por video' },
+    { qty:'qtyDesplegableVideos', type:'per', unit:2000, sub:'subDesplegableVideos', name:'Integración cuadro desplegable por video' }
+  ];
+
+  function calc(){
+    let total = 0;
+    items.forEach(it=>{
+      if(it.type==='fixed' && document.getElementById(it.id)?.checked){
+        total += it.amount;
+      }
+      if(it.type==='per'){
+        if(it.id && document.getElementById(it.id)?.checked){
+          const q = Number(document.getElementById(it.qty)?.value||0);
+          total += q*it.unit;
+          if(it.sub) document.getElementById(it.sub).textContent = q>0 ? `Subtotal: ${fmt.format(q*it.unit)}` : '';
+        }
+        if(!it.id){
+          const q = Number(document.getElementById(it.qty)?.value||0);
+          total += q*it.unit;
+          if(it.sub) document.getElementById(it.sub).textContent = q>0 ? `Subtotal: ${fmt.format(q*it.unit)}` : '';
+        }
+      }
+    });
+    document.getElementById('totalFormal').textContent = fmt.format(total);
+    return total;
+  }
+  
+  function generatePDF(){
+    let total = calc();
+    let rows = "";
+
+    items.forEach(it=>{
+      if(it.type==='fixed' && document.getElementById(it.id)?.checked){
+        rows += `
+          <tr>
+            <td>${it.name}</td>
+            <td>1</td>
+            <td>${fmt.format(it.amount)}</td>
+            <td>${fmt.format(it.amount)}</td>
+          </tr>`;
+      }
+      if(it.type==='per'){
+        const q = Number(document.getElementById(it.qty)?.value||0);
+        if(q > 0){
+          rows += `
+            <tr>
+              <td>${it.name}</td>
+              <td>${q}</td>
+              <td>${fmt.format(it.unit)}</td>
+              <td>${fmt.format(q*it.unit)}</td>
+            </tr>`;
+        }
+      }
+    });
+
+    let html = `
+      <html>
+      <head>
+        <meta charset="UTF-8">
+        <title>Cotización – MarketFlix</title>
+        <style>
+          body{font-family:Arial, sans-serif; margin:40px; color:#1F2937;}
+          h1{color:#003779; text-align:center;}
+          h2{margin-top:20px; color:#003779;}
+          table{width:100%; border-collapse:collapse; margin-top:20px;}
+          th,td{border:1px solid #ccc; padding:8px; text-align:left;}
+          th{background:#f0f4f8;}
+          .total{margin-top:20px; font-size:20px; font-weight:bold; color:#003779;}
+          .notes{margin-top:30px; font-size:14px; color:#374151;}
+        </style>
+      </head>
+      <body>
+        <h1>Cotización – Desarrollo y Actualizaciones MarketFlix</h1>
+        <p><strong>Fecha:</strong> ${new Date().toLocaleDateString("es-CO")}</p>
+
+        <h2>Resumen de cotización</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Ítem</th>
+              <th>Cantidad</th>
+              <th>Precio unitario</th>
+              <th>Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows || "<tr><td colspan='4'>No se seleccionaron ítems</td></tr>"}
+          </tbody>
+        </table>
+
+        <p class="total">💰 Total: ${fmt.format(total)}</p>
+
+        <div class="notes">
+          <h2>Notas importantes</h2>
+          <ul>
+            <li>El proyecto inicia con un <strong>abono del 50%</strong> del valor total.</li>
+            <li>El siguiente 50% se cancela cuando se entreguen los cambios realizados y aprobados.</li>
+            <li>Antes de comenzar se definirá un <strong>diseño inicial</strong> como plantilla base para el desarrollo.</li>
+            <li>Cualquier cambio adicional al diseño acordado se <strong>cotizará y cobrará aparte</strong>.</li>
+          </ul>
+        </div>
+      </body>
+      </html>
+    `;
+
+    let w = window.open("", "PRINT", "height=650,width=900,top=100,left=100");
+    w.document.write(html);
+    w.document.close();
+    w.focus();
+    w.print();
+
+  }
+
+
+
+  function sendWhatsApp(){
+    let total = calc();
+    let detalles = "📋 *Cotización – MarketFlix*%0A%0A";
+    items.forEach(it=>{
+      if(it.type==='fixed' && document.getElementById(it.id)?.checked){
+        detalles += "• " + it.name + ": " + fmt.format(it.amount) + "%0A";
+      }
+      if(it.type==='per'){
+        const q = Number(document.getElementById(it.qty)?.value||0);
+        if(q > 0){
+          detalles += "• " + it.name + " ("+q+" ud.): " + fmt.format(q*it.unit) + "%0A";
+        }
+      }
+    });
+    detalles += "%0A💰 *Total:* " + fmt.format(total) + "%0A%0A";
+    detalles += "📌 El proyecto inicia con un abono del 50%.%0A";
+    detalles += "📌 El siguiente 50% se cancela al entregar los cambios.%0A";
+    detalles += "⚠️ Cambios adicionales al diseño inicial se cotizan aparte.%0A";
+
+    const phone = "573202608864";
+    const url = `https://wa.me/${phone}?text=${detalles}`;
+    window.open(url, "_blank");
+  }
+
+  document.querySelectorAll('input').forEach(el=>{
+    el.addEventListener('input',calc);
+    el.addEventListener('change',calc);
+  });
+
+ 
+
+  calc();
+</script>

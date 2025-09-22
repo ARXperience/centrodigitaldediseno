@@ -1,0 +1,1582 @@
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cotización – Producción de Videos Corporativos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+    :root {
+      --bg:#F5F7FA; 
+      --card:#FFFFFF; 
+      --title:#1F2937; 
+      --text:#374151;
+      --muted:#6B7280; 
+      --accent:#003779; /* nuevo azul en TODO el sistema */
+      --success:#10B981;
+      --shadow:0 8px 24px rgba(0,0,0,.06); 
+      --radius:16px;
+    }
+    
+      }
+      *{box-sizing:border-box; margin:0; padding:0}
+      body{font-family:Montserrat,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; padding:40px 20px}
+      header{text-align:center; margin-bottom:50px;}
+      header img{max-width:60px; display:block; margin:24px auto 50px;}
+      h1{font-family:Poppins,sans-serif; font-weight:800; font-size:clamp(26px,4vw,36px); color:var(--title); margin-bottom:6px;}
+      .sub{color:var(--muted); font-size:15px; text-align:center;}
+    
+      .card{
+        background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
+        padding:24px; margin-bottom:24px;
+        transition: background .3s, color .3s;
+        overflow:hidden;
+      }
+      .card img.top-img{
+        width:105%; height:200px; object-fit:cover;
+        border-radius: var(--radius) var(--radius) 0 0;
+        margin:-24px -24px 24px -24px;
+      }
+      .card h2{font-family:Poppins,sans-serif; font-size:20px; margin-bottom:12px; color:var(--title)}
+      .card h3{font-size:16px; margin:12px 0 6px; font-weight:600; color:var(--accent)}
+      ul{list-style:none; padding:0; margin:0}
+      ul li{margin-bottom:6px; font-size:14px;}
+      
+      table{width:100%; border-collapse:collapse; margin-top:10px}
+      th,td{padding:10px; border-bottom:1px solid #E5E7EB; font-size:14px; text-align:left}
+      th{background:var(--accent); color:#fff; font-weight:600}
+      tr:last-child td{border-bottom:none}
+    
+      /* Efecto hover en filas de tablas */
+    table tr:hover {
+      background-color: #2563EB; /* azul de acento */
+      transition: background 0.3s, color 0.3s;
+    }
+    
+    table tr:hover td,
+    table tr:hover th {
+      color: #ffffff !important; /* texto blanco */
+    }
+    
+    
+      .highlight{background:#ECFDF5; padding:12px; border-radius:10px; font-weight:600; color:var(--success); margin-top:12px}
+    
+      .cta{
+        display:inline-block; background:var(--accent);
+        color:#fff; text-decoration:none; padding:14px 26px; border-radius:10px;
+        font-family:Poppins,sans-serif; font-weight:600; transition:.3s;
+        cursor:pointer; margin: 10px 8px 0 8px;
+      }
+      .cta:hover{background:#1D4ED8}
+    
+      /* Hover en filas dentro de una card */
+      .card table tr:hover td {
+        background-color: #E0F2FE !important;
+        color: #1F2937 !important;
+      }
+    
+     /* Hover contraste en cards */
+    .card:hover { 
+      background: #023466;  /* tu azul personalizado */
+      color: #fff; 
+    }
+    .card:hover h2,
+    .card:hover h3,
+    .card:hover p,
+    .card:hover li { 
+      color: #fff; 
+    }
+    .card:hover .highlight { 
+      background: rgba(255,255,255,0.15); 
+      color: #fff; 
+    }
+    .card:hover table th { 
+      background: #003779;  /* un azul más oscuro para contraste */
+    }
+    .card:hover table td { 
+      color: #fff; 
+    }
+    
+    
+      /* Galería equipos tecnológicos */
+      .equipos-galeria{
+        display:flex; flex-wrap:wrap; gap:16px; margin-top:16px;
+      }
+      .equipos-galeria img{
+        width:180px; height:120px; object-fit:cover; border-radius:12px;
+        box-shadow: var(--shadow);
+        transition: transform .3s;
+      }
+     /* Galería equipos tecnológicos */
+    .equipos-galeria{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr); /* 4 columnas por fila */
+      gap:20px;
+      margin-top:20px;
+    }
+    .equipos-galeria img{
+      width:100%;
+      height:200px;
+      object-fit:cover;
+      border-radius:12px;
+      box-shadow: var(--shadow);
+      cursor:pointer;
+      transition: transform .3s;
+    }
+    .equipos-galeria img:hover{
+      transform: scale(1.05);
+    }
+    
+      /* Modales */
+    /* Estilos para el modal del cotizador */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+      padding: 20px; /* margen interno para móviles */
+      box-sizing: border-box;
+    }
+    
+    .modal-content {
+      background: #fff;
+      border-radius: 16px;
+      max-width: 900px;     /* ancho máximo en desktop */
+      width: 100%;          /* ocupa todo el ancho posible hasta el max */
+      max-height: 90vh;     /* nunca más alto que el 90% de la pantalla */
+      overflow-y: auto;     /* scroll vertical interno si se desborda */
+      padding: 20px;
+      text-align: left;
+      box-shadow: 0 8px 24px rgba(0,0,0,.2);
+      animation: fadeIn .3s ease;
+    }
+    
+    /* Mejor experiencia en móvil */
+    @media (max-width: 768px) {
+      .modal-content {
+        max-width: 95%;   /* casi todo el ancho en móvil */
+        padding: 15px;
+        font-size: 14px;  /* texto más compacto */
+      }
+    }
+    
+      .modal .close { position:absolute; top:12px; right:16px; font-size:28px; font-weight:bold; color:#000; cursor:pointer; }
+      @keyframes fadeIn { from {opacity:0; transform:scale(.98);} to {opacity:1; transform:scale(1);} }
+    
+      #modal .modal-content img { width:100%; border-radius:12px; margin-bottom:16px; }
+      #modal .modal-content h3 { font-family:Poppins,sans-serif; color:#1F2937; margin-bottom:8px; }
+      #modal .modal-content p { color:#374151; font-size:14px; }
+    
+      #agendaModal .modal-content { max-width:420px; }
+      #agendaModal label { display:block; margin:10px 0 5px; font-weight:600; text-align:left; }
+      #agendaModal input { width:100%; padding:10px; margin-bottom:15px; border:1px solid #ddd; border-radius:8px; }
+      #agendaModal button { background:var(--accent); color:#fff; border:none; padding:12px 20px; border-radius:8px; font-weight:600; cursor:pointer; transition:.3s; width:100%; }
+      #agendaModal button:hover { background:#1D4ED8; }
+    
+      /* Cotizador avanzado */
+      #quoteModal .modal-content{ max-width:1000px; text-align:left; }
+      .grid{ display:grid; grid-template-columns: 1fr; gap:16px; }
+      @media(min-width:1000px){ .grid{ grid-template-columns: 1fr 1fr; } }
+      .subcard{ background:#F9FAFB; border:1px solid #E5E7EB; border-radius:12px; padding:16px; }
+      .subcard h3{ margin:0 0 8px 0; color:#1F2937; font-family:Poppins,sans-serif; }
+      .row{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:8px 0; border-bottom:1px dashed #E5E7EB; }
+      .row:last-child{ border-bottom:none; }
+      .row label{ flex:1; }
+      .row .price{ min-width:120px; text-align:right; color:#111827; font-weight:600; }
+      .row select{ width:84px; padding:6px 8px; border:1px solid #D1D5DB; border-radius:8px; background:#fff; }
+      .row input[type="checkbox"], .row input[type="radio"]{ transform:scale(1.1); margin-right:6px; }
+      .muted{ color:#6B7280; font-size:13px; }
+      .totals{ background:#111827; color:#fff; border-radius:12px; padding:16px; }
+      .totals h3{ color:#fff; margin:0 0 10px 0; }
+      .totals .line{ display:flex; justify-content:space-between; margin:6px 0; }
+      .totals .grand{ font-size:20px; font-weight:800; }
+      .actions{ display:flex; gap:10px; flex-wrap:wrap; }
+      .actions .cta{ margin:0; }
+      .disclaimer{ font-size:12px; color:#6B7280; margin-top:8px; }
+      .subtot{ font-weight:700; color:#111827; text-align:right; margin-top:8px; }
+      
+      .card.resumen {
+      position: fixed;         /* empieza flotando */
+      top: 20px;               /* siempre visible arriba */
+      right: 20px;
+      width: 300px;
+      z-index: 1000;
+      transition: transform .3s ease;
+    }
+    
+    /* cuando llega a su posición final */
+    .card.resumen.static {
+      position: static;        /* vuelve al flujo normal */
+      width: auto;
+      right: auto;
+    }
+    
+    /* animación lateral en hover */
+    .card.resumen:hover {
+      transform: translateX(120px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      cursor: pointer;
+    }
+    
+    #agendaModal {
+      z-index: 3000 !important;
+      background: rgba(0,0,0,0.85); /* un poquito más oscuro */
+    }
+    
+    .card.resumen h2,
+    .card.resumen h3 {
+      color: #fbbf24; /* dorado, puedes cambiar por el color que quieras */
+      font-weight: 700; /* más marcado */
+    }
+    
+    
+    
+    .equipos-tabla {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 14px;
+    }
+    .equipos-tabla th, 
+    .equipos-tabla td {
+      border: 1px solid #E5E7EB;
+      padding: 10px;
+      vertical-align: top;
+    }
+    .equipos-tabla th {
+      background: var(--accent);
+      color: #fff   ;
+      font-weight: 600;
+      text-align: left;
+    }
+    .equipos-tabla tr:nth-child(even) {
+      background: #F9FAFB;
+    }
+    /* Evitar que el hover azul de la card afecte las tablas */
+    .card:hover table,
+    .card:hover table th,
+    .card:hover table td {
+      background: #fff !important;
+      color: #1F2937 !important; /* gris oscuro */
+    }
+    .equipos-tabla tr:hover td {
+      background: #E0F2FE !important;  /* azul claro */
+      color: #1F2937 !important;       /* gris oscuro, legible */
+      font-weight: 600;                /* un poquito más fuerte */
+    }
+    
+    /* Tabla de cronograma */
+    .cronograma-tabla {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    
+    .cronograma-tabla th {
+      background: #003779;  /* azul acento */
+      color: #fff;
+      text-align: left;
+      padding: 12px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    
+    .cronograma-tabla td {
+      padding: 12px;
+      border-bottom: 1px solid #E5E7EB;
+      font-size: 14px;
+      color: #1F2937; /* gris oscuro */
+    }
+    
+    /* Hover filas */
+    .cronograma-tabla tr:hover td {
+      background: #E0F2FE;
+      color: #1F2937;
+      font-weight: 600;
+    }
+    
+    .objetivos-lista {
+      list-style: none;
+      padding: 0;
+      margin: 12px 0;
+    }
+    
+    
+    
+    /* Lista de objetivos: estilo base */
+    /* Estado base de los ítems */
+    .objetivos-lista li {
+      background: #ffffff;
+      border: 1px solid #E5E7EB;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 10px;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.3s, color 0.3s, border 0.3s;
+      color: #374151; /* gris medio siempre visible */
+      font-weight: 500;
+    }
+    
+    /* Hover en ítem activo */
+    .objetivos-lista li:hover {
+      background: #E0F2FE;     /* azul claro */
+      border: 1px solid #2563EB; /* borde azul */
+      color: #1F2937;          /* gris oscuro para más contraste */
+      font-weight: 600;
+      cursor: pointer;
+    }
+    
+    /* 🔒 Esto asegura que los demás ítems NO se apaguen */
+    .card:hover .objetivos-lista li {
+      color: #374151 !important; /* siempre gris, nunca blanco */
+    }
+    
+    /* Estado base para todas las cards */
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    /* Animación hover unificada (igual a la de Equipos de Trabajo) */
+    .card:hover {
+      transform: translateY(-6px); /* pequeño levantamiento */
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12); /* sombra más fuerte */
+    }
+    
+    /* Para todas las tablas */
+    .card table tr {
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    
+    .card table tr:hover {
+      background: #f1f5f9;  /* gris claro */
+      color: #111827;       /* texto oscuro para contraste */
+    }
+    
+    /* Para listas dentro de las cards */
+    .card ul li {
+      transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease;
+      padding: 10px;
+      border-radius: 6px;
+    }
+    
+    .card ul li:hover {
+      background: #f1f5f9;
+      color: #111827;
+      transform: translateX(6px); /* pequeño desplazamiento como animación */
+    }
+    
+    /* Estilo uniforme para TODAS las tablas dentro de las cards */
+    .card table tr {
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    
+    /* Igual que Equipos de Trabajo */
+    .card table tr:hover {
+      background-color: #e3f2fd; /* azul clarito, el mismo que usaste */
+      color: #111827;            /* texto oscuro para contraste */
+    }
+    
+    /* Asegurar que el texto siempre sea visible */
+    .card table td, 
+    .card table th {
+      color: #111827; /* color por defecto del texto */
+    }
+    
+    /* 🔹 Estilo uniforme para TODAS las tablas dentro de .card */
+    .card table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    .card table th,
+    .card table td {
+      padding: 12px 16px;
+      text-align: left;
+      color: #111827; /* texto siempre oscuro y legible */
+    }
+    
+    /* 🔹 Zebra striping (filas alternas) */
+    .card table tr:nth-child(even) {
+      background-color: #f9fafb; /* gris muy claro */
+    }
+    
+    .card table tr:nth-child(odd) {
+      background-color: #ffffff; /* fondo blanco */
+    }
+    
+    /* 🔹 Animación al pasar el mouse */
+    .card table tr {
+      transition: background 0s ease, color 0s ease;
+    }
+    
+    .card table tr:hover {
+      background-color: #e3f2fd; /* azul clarito igual al de Equipos de Trabajo */
+      color: #111827; /* el texto se mantiene oscuro */
+      cursor: pointer;
+    }
+    /* 🔹 Animación para TODAS las tablas dentro de .card */
+    .card table tr {
+      transition: background 0s ease, color 0s ease, font-weight 0s ease;
+    }
+    
+    .card table tr:hover {
+      background-color: #e3f2fd; /* azul clarito */
+      color: #111827;            /* texto oscuro */
+      font-weight: 600;           /* semi-bold (negrilla suave) */
+      cursor: pointer;
+    }
+    
+    /* Texto en blanco cuando el fondo es azul */
+    .bg-accent, 
+    th, 
+    .card h3, 
+    .cta, 
+    .card:hover h2, 
+    .card:hover h3, 
+    .card:hover p, 
+    .card:hover li {
+      color: #fff !important;
+    }
+    
+    /* Forzar color negro al pasar el mouse en Entregables Finales */
+    .card.entregables-finales li:hover {
+      color: #111827 !important; /* negro/gris oscuro */
+      font-weight: 600;          /* opcional: semi-negrilla */
+    }
+    
+    
+    
+    /* 📱 Ajustes para móviles */
+    @media (max-width: 768px) {
+    
+      /* Reducir padding en las cards */
+      .card {
+        padding: 16px;
+      }
+    
+      /* Ajustar títulos */
+      .card h2 {
+        font-size: 18px;
+      }
+      .card h3 {
+        font-size: 14px;
+      }
+    
+      /* Tablas: scroll horizontal si se desbordan */
+      .card table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+    
+      /* Cabeceras de tabla más compactas */
+      th, td {
+        padding: 8px;
+        font-size: 13px;
+      }
+    
+      /* Evitar que botones ocupen toda la pantalla */
+      .cta {
+        padding: 10px 18px;
+        font-size: 14px;
+      }
+    
+      /* Resumen más amigable en móviles */
+      .card.resumen {
+        position: static !important; /* no flotante en móvil */
+        width: 100% !important;
+        margin-top: 20px;
+        transform: none !important;
+      }
+    
+      /* Ajustar galería */
+      .equipos-galeria {
+        grid-template-columns: repeat(2, 1fr); /* 2 por fila en lugar de 4 */
+        gap: 12px;
+      }
+    
+      .equipos-galeria img {
+        height: 140px;
+      }
+    }
+    
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+
+    
+    /* 🎬 Estilos galería de videos */
+.video-categorias {
+  display: flex;
+  justify-content: space-between; /* Alineación horizontal */
+  gap: 20px; /* Espacio entre las cards */
+  margin-top: 20px;
+  flex-wrap: wrap; /* Permite que se ajusten las cards cuando no hay suficiente espacio */
+}
+
+.video-categoria {
+  flex: 1 1 80%; /* Hace que cada card tenga un ancho del 22% (ajustable) */
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+  height: 300px; /* Ajuste la altura de la card según sea necesario */
+}
+
+.video-categoria:hover {
+  transform: scale(1.05);
+}
+
+.video-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ajusta el contenido del video para cubrir la card sin deformarse */
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* 🎬 Estilos galería de videos */
+.video-categorias {
+  display: flex;
+  justify-content: space-between; /* Alineación horizontal */
+  gap: 20px; /* Espacio entre las cards */
+  margin-top: 20px;
+  flex-wrap: wrap; /* Permite que se ajusten las cards cuando no hay suficiente espacio */
+}
+
+/* Estilo solo para la card de "Portafolio de Videos" */
+#portafolio-videos-card {
+  background-color: #fff;  /* Fondo blanco para la card */
+  box-shadow: none !important;  /* Elimina la sombra de la card */
+  transition: none !important;  /* Elimina las transiciones de hover */
+  padding: 24px;
+  margin-bottom: 24px;
+  border-radius: 12px;
+}
+
+/* Evitar cambios en la card de "Portafolio de Videos" al pasar el mouse sobre ella */
+#portafolio-videos-card:hover {
+  background-color: #1F2937 !important;  /* Mantener el color de fondo */
+  box-shadow: none !important;  /* Eliminar sombra */
+  transform: none !important;  /* No aplicar transformación */
+}
+
+/* Mantener los estilos normales de las demás cards */
+.card {
+  background-color: #fff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+  padding: 24px;
+  margin-bottom: 24px;
+  border-radius: 12px;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+    
+    
+    </style>
+    </head>
+    <body>
+    
+    <header>
+      <img src="/assets/imagotipo.png" alt="Centro Digital de Diseño">
+      <h1>Cotización General – Producción de 4 Videos Corporativos</h1>
+      <p class="sub">Cliente: AC+Technology · Fecha: 16 de Septiembre</p>
+    </header>
+    
+    <!-- 🎬 Galería de Categorías de Videos -->
+<div id="portafolio-videos-card" class="card">
+  <h2>🎞️ Portafolio de Videos</h2>
+
+  <div class="video-categorias">
+    <!-- Drone -->
+    <div class="video-categoria" data-category="drone">
+      <video class="video-preview" src="/assets/videos/drone1.mp4" muted loop preload="auto"></video>
+      <div class="overlay">Drone</div>
+    </div>
+
+<!-- Drone + Terrestre (Airbnb) -->
+<div class="video-categoria" data-category="airbnb">
+  <video class="video-preview" src="/assets/contenido-para-redes-sociales/airbnb/canon.mp4"muted loop autoplay playsinline preload="auto"></video>
+  <div class="overlay">Drone + Terrestre (Airbnb)</div>
+</div>
+
+
+    <!-- Institucionales -->
+    <div class="video-categoria" data-category="institucionales">
+      <video class="video-preview" src="/assets/videos/institucional1.mp4" muted loop preload="auto"></video>
+      <div class="overlay">Institucionales</div>
+    </div>
+
+    <!-- Animaciones -->
+    <div class="video-categoria" data-category="animaciones">
+      <video class="video-preview" src="/assets/videos/animacion1.mp4" muted loop preload="auto"></video>
+      <div class="overlay">Animaciones</div>
+    </div>
+
+    <!-- Contenido Redes Sociales -->
+    <div class="video-categoria" data-category="redes">
+      <video class="video-preview" src="/assets/videos/redes1.mp4" muted loop preload="auto"></video>
+      <div class="overlay">Contenido para Redes</div>
+    </div>
+
+    <!-- Inteligencia Artificial -->
+    <div class="video-categoria" data-category="ia">
+      <video class="video-preview" src="/assets/videos/ia1.mp4" muted loop preload="auto"></video>
+      <div class="overlay">Videos con IA</div>
+    </div>
+
+    <!-- Videoclips -->
+    <div class="video-categoria" data-category="videoclips">
+      <video class="video-preview" src="/assets/videos/videoclip1.mp4" muted loop preload="auto"></video>
+      <div class="overlay">Videoclips</div>
+    </div>
+
+    <!-- Realidad Aumentada -->
+    <div class="video-categoria" data-category="ra">
+      <video class="video-preview" src="/assets/videos/ra1.mp4" muted loop preload="auto"></video>
+      <div class="overlay">Realidad Aumentada</div>
+    </div>
+  </div>
+</div>
+
+    
+  <!-- Modal para reproducir videos -->
+<div id="videoModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span> <!-- Botón de cerrar -->
+    <h2 id="modalTitle"></h2> <!-- Título de la categoría -->
+    <video id="modalPlayer" controls autoplay style="width:100%; border-radius:12px; margin-bottom:20px;"></video> <!-- Reproductor de video -->
+    <ul id="videoList"></ul> <!-- Lista de videos -->
+  </div>
+</div>
+
+    
+    
+    <!-- Objetivos -->
+    <div class="card">
+      <h2>🎯 Objetivos del Proyecto</h2>
+      <p>Producción de <strong>4 videos corporativos</strong> (2–5 min cada uno):</p>
+    
+      <ul class="objetivos-lista">
+        <li>📹 <strong>Testimonios</strong> – 12 clientes en Bogotá</li>
+        <li>🏢 <strong>Video institucional</strong> – líderes y directivos</li>
+        <li>⚙️ <strong>Video del servicio</strong> – grabado en instalaciones del cliente</li>
+        <li>🛡️ <strong>Caso de seguridad</strong> – dramatización + solución</li>
+      </ul>
+    </div>
+    
+    
+    <!-- Cronograma -->
+    <div class="card">
+      <h2>📅 Cronograma de Producción</h2>
+      <table class="cronograma-tabla">
+        <thead>
+          <tr>
+            <th>Día</th>
+            <th>Actividades principales</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1</strong></td>
+            <td>
+              • Equipo 1: Grabación de 6 testimonios (iPhone)<br>
+              • Equipo 2: Video institucional con líderes y directivos (Sony Alpha)
+            </td>
+          </tr>
+          <tr>
+            <td><strong>2</strong></td>
+            <td>
+              • Equipo 1: Grabación de 6 testimonios (iPhone)<br>
+              • Equipo 2: Video del servicio en instalaciones del cliente (Sony Alpha)
+            </td>
+          </tr>
+          <tr>
+            <td><strong>3</strong></td>
+            <td>
+              • Ambos equipos: Caso de seguridad<br>
+              (dramatización + solución)
+            </td>
+          </tr>
+          <tr>
+            <td><strong>4 – 7</strong></td>
+            <td>
+              • Postproducción: edición, animaciones, subtítulos, corrección de color y audio
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    
+    
+    <!-- Equipos de trabajo -->
+    <div class="card">
+      <img src="/assets/cotizaciones/equipo-produccion.png" alt="Equipos de Trabajo" class="top-img">
+      <h2>👥 Equipos de Trabajo</h2>
+      
+      <table class="equipos-tabla">
+        <tr>
+          <th>Equipo</th>
+          <th>Integrantes</th>
+          <th>Detalle</th>
+          <th>Servicio de grabación</th>
+          <th>Transporte y alimentación</th>
+        </tr>
+        <tr>
+          <td><strong>Equipo 1 – Testimonios</strong></td>
+          <td>2 personas (camarógrafo + asist. audio)</td>
+          <td>iPhone para 12 testimonios en 2 días</td>
+          <td>$890.000<br><small>(2 personas × 2 días)</small></td>
+          <td>$220.000<br><small>(2 días)</small></td>
+        </tr>
+        <tr>
+          <td><strong>Equipo 2 – Institucional / Servicio</strong></td>
+          <td>2 personas (camarógrafo + productor)</td>
+          <td>Sony Alpha (sugerido) para líderes e institucional (2 días)</td>
+          <td>$890.000<br><small>(2 personas × 2 días)</small></td>
+          <td>$130.000<br><small>(2 días)</small></td>
+        </tr>
+        <tr>
+          <td><strong>Día equipo completo – Caso de seguridad</strong></td>
+          <td>4 personas (productor + audio + iluminación + camarógrafo)</td>
+          <td>Dramatización + solución</td>
+          <td>$750.000<br><small>(incluye ideación, guión y dirección)</small></td>
+          <td>$100.000<br><small>(1 día)</small></td>
+        </tr>
+      </table>
+    </div>
+    
+    
+    <!-- Equipos tecnológicos -->
+    <div class="card">
+      <img src="/assets/cotizaciones/equipos-tecnologicos.png" alt="Equipos Tecnológicos" class="top-img">
+      <h2>🎥 Equipos Tecnológicos</h2>
+      <table>
+        <tr><th>Recurso</th><th>Precio/día</th><th>Días</th><th>Subtotal</th></tr>
+        <tr><td>Iluminación profesional</td><td>$100.000</td><td>3 (sugerido)</td><td>$300.000</td></tr>
+        <tr><td>Micrófonos</td><td>$50.000</td><td>3 (sugerido)</td><td>$150.000</td></tr>
+        <tr><td>Cámara iPhone 15 Pro Max</td><td>$70.000</td><td>3 (sugerido)</td><td>$210.000</td></tr>
+        <tr><td>Cámara Sony Alpha a7</td><td>$150.000</td><td>2 (sugerido)</td><td>$300.000</td></tr>
+        <tr><td>Cámara Blackmagic</td><td>$350.000</td><td>Opcional</td><td>$0</td></tr>
+        <tr><td>Dron Mavic 3</td><td>$300.000</td><td>Opcional</td><td>$0</td></tr>
+        <tr><td>Piloto profesional</td><td>$150.000</td><td>Opcional</td><td>$0</td></tr>
+        <tr><td>Cámara 360</td><td>$250.000</td><td>Opcional</td><td>$0</td></tr>
+        <tr><td>Estabilizador DJI</td><td>Incluído con iPhone 15 Pro Max</td><td>Incluído</td><td>$0</td></tr>
+      </table>
+      <p class="highlight">⚠️ Se sugiere el uso de 1 cámara principal para cada equipo por día (Sony o iPhone). Los demás equipos son opcionales.</p>
+    
+      <!-- Galería de imágenes -->
+      <div class="equipos-galeria">
+        <img src="/assets/cotizaciones/iluminacion.png" alt="Iluminación profesional" data-title="Iluminación profesional" data-desc="Proporciona luz uniforme y controlada para entrevistas y escenas en interiores. Ideal en condiciones de baja luz.">
+        <img src="/assets/cotizaciones/microfonos.png" alt="Micrófonos" data-title="Micrófonos" data-desc="Micrófonos direccionales y de solapa para obtener audio limpio y profesional en testimonios e institucionales.">
+        <img src="/assets/cotizaciones/iphone.png" alt="iPhone 15 Pro Max" data-title="iPhone 15 Pro Max" data-desc="Utilizado para grabar testimonios. Cámara confiable y ligera, perfecta para producción ágil.">
+        <img src="/assets/cotizaciones/sony.png" alt="Sony Alpha a7" data-title="Sony Alpha a7" data-desc="Cámara profesional para video institucional y de alta calidad. Excelente rango dinámico.">
+        <img src="/assets/cotizaciones/black-magic.png" alt="Cámara Blackmagic" data-title="Cámara Blackmagic" data-desc="Cámara de cine digital. Se ofrece de forma opcional para proyectos que requieren máxima calidad.">
+        <img src="/assets/cotizaciones/drone.png" alt="Dron Mavic 3" data-title="Dron Mavic 3" data-desc="Permite tomas aéreas espectaculares. Se ofrece como extra opcional con o sin piloto.">
+        <img src="/assets/cotizaciones/piloto.png" alt="Piloto profesional" data-title="Piloto profesional" data-desc="Piloto certificado para operar drones en condiciones seguras y legales. Servicio opcional.">
+        <img src="/assets/cotizaciones/360.png" alt="Cámara 360" data-title="Cámara 360" data-desc="Captura experiencias inmersivas en 360°. Ideal para videos innovadores y presentaciones virtuales.">
+        <img src="/assets/cotizaciones/estabilizador.png" alt="Estabilizador DJI" data-title="Estabilizador DJI" data-desc="Mejora la estabilización de los videos permitiendo mayor control para una producción de calidad cinematográfica.">
+      </div>
+    </div>
+    
+    <!-- Modal -->
+    <div id="modal" class="modal" aria-hidden="true">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <img id="modal-img" src="" alt="">
+        <h3 id="modal-title"></h3>
+        <p id="modal-desc"></p>
+      </div>
+    </div>
+    
+    <style>
+    /* Modal estilizado */
+    .modal {
+      display:none;
+      position:fixed;
+      z-index:1000;
+      left:0; top:0;
+      width:100%; height:100%;
+      background:rgba(0,0,0,0.7);
+      justify-content:center; align-items:center;
+    }
+    .modal-content {
+      background:#fff;
+      border-radius:16px;
+      max-width:500px;
+      padding:20px;
+      text-align:center;
+      box-shadow:0 8px 24px rgba(0,0,0,.2);
+      animation:fadeIn .3s ease;
+    }
+    .modal-content img {
+      width:100%;
+      border-radius:12px;
+      margin-bottom:16px;
+    }
+    .modal-content h3 {
+      font-family:Poppins,sans-serif;
+      color:#1F2937;
+      margin-bottom:8px;
+    }
+    .modal-content p {
+      color:#374151;
+      font-size:14px;
+    }
+    .close {
+      position:absolute;
+      top:20px; right:30px;
+      font-size:28px;
+      font-weight:bold;
+      color:#fff;
+      cursor:pointer;
+    }
+    
+    
+    @keyframes fadeIn { from {opacity:0; transform:scale(.9);} to {opacity:1; transform:scale(1);} }
+    </style>
+    
+    
+    
+    
+    
+    <!-- Postproducción -->
+    <div class="card">
+      <img src="/assets/cotizaciones/edicion-profesional.png" alt="Postproducción y Edición" class="top-img">
+      <h2>🖥️ Postproducción y Edición</h2>
+      <table>
+        <tr><th>Tarea:    (Del tiempo requerido de entrega dependerá la contratación del equipo de edición (Óptima o Avanzada)</th><th>Precio/día</th><th>Días</th><th>Subtotal</th></tr>
+        <tr><td>Edición Óptima (1 editor)</td><td>$200.000</td><td>3</td><td>$600.000</td></tr>
+        <tr><td>Edición Avanzada (2 editores)</td><td>$350.000</td><td>2</td><td>$700.000</td></tr>
+      </table>
+      <p>Incluye subtítulos, animaciones, intro/outro, corrección de color, audio y exportación en alta calidad.</p>
+    </div>
+    
+    <!-- Resumen -->
+    <div class="card">
+      <img src="/assets/cotizaciones/resumen.png" alt="Resumen de Costos" class="top-img">
+      <h2>💰 Resumen de Costos</h2>
+      <table>
+          <tr><td>Servicio de grabación (3días)(4 personas)</td><td>$2'530.000</td></tr>
+        <tr><td>Transporte + alimentación(3 días)</td><td>$450.000</td></tr>
+        <tr><td>Equipos tecnológicos</td><td>$350.000 – $960.000</td></tr>
+        <tr><td>Edición y postproducción</td><td>$600.000 – $700.000</td></tr>
+        <tr><th>Total General</th><th>$3'950.000 – $4.660.000</th></tr>
+      </table>
+    </div>
+    
+    <!-- Entregables -->
+    <div class="card entregables-finales">
+        <h2>📦 Entregables Finales</h2>
+        <ul>
+          <li>4 videos editados (2–5 min) en Full HD / 4K</li>
+          <li>Intro/outro con logo animado</li>
+          <li>Subtítulos si se requieren</li>
+          <li>Corrección de color y audio</li>
+          <li>Archivos listos para redes, web y proyección</li>
+          <li>Creación de voz IA comercial si se requiere</li>
+        </ul>
+    </div>
+    
+    
+    <!-- Observaciones -->
+    <div class="card">
+      <img src="/assets/cotizaciones/observaciones1.png" alt="Observaciones" class="top-img">
+      <h2>📝 Observaciones</h2>
+      <p>El presupuesto puede variar según cámaras elegidas, complejidad del caso creativo y elementos adicionales. No incluye actores ni locaciones externas adicionales.<br>
+      Para empezar se requiere de un abono del 50% del total del proyecto, el valor restante se pagará una vez se hayan presentado los entregables.</p>
+    </div>
+    
+    <div style="text-align:center; margin-bottom:40px;">
+      <a id="openQuote" class="cta">🧮 Presiona para crear tu cotización personalizada</a>
+    </div>
+    
+    <div id="agendaModal" class="modal" aria-hidden="true">
+      <div class="modal-content">
+        <span class="close" data-close="agendaModal">&times;</span>
+        <h2>📅 ¿Deseas agendar una reunión para discutir los detalles o resolver dudas?</h2>
+        <form id="agendaForm">
+          <label for="fecha">Selecciona la fecha:</label>
+          <input type="date" id="fecha" name="fecha" required>
+          <label for="hora">Selecciona la hora:</label>
+          <input type="time" id="hora" name="hora" required>
+          <button type="submit">Agendar</button>
+        </form>
+      </div>
+    </div>
+    
+    
+    <!-- Modal Cotizador avanzado por equipos -->
+    <div id="quoteModal" class="modal" aria-hidden="true">
+      <div class="modal-content">
+        <span class="close" data-close="quoteModal">&times;</span>
+        <h2 style="margin-top:0">🧮 Cotizador personalizado por equipos</h2>
+        <p class="muted">Base fija incluida: equipos de producción (3 días) + transporte/alimentación. Asigna tecnología por equipo y por día.</p>
+    
+        <div class="grid">
+          <!-- Columna izquierda: Base + Equipo 1 + Equipo 2 -->
+          <div class="col">
+            <div class="subcard">
+              <h3>🔒 Producción base (inamovible)</h3>
+              <div class="row"><label>Producción (3 días · 4 personas)</label><div class="price">$2’530.000</div></div>
+              <div class="row"><label>Transporte + alimentación (3 días)</label><div class="price">$450.000</div></div>
+              <div class="row"><label><strong>Subtotal fijo</strong></label><div class="price" id="fixedTotal">$2’980.000</div></div>
+            </div>
+    
+            <!-- Equipo 1 -->
+            <div class="subcard" id="group-e1">
+              <h3>🎥 Equipo 1 – Testimonios (2 días)</h3>
+              <p class="muted">Selecciona recursos y cuántos días (1–2).</p>
+    
+              <!-- Plantilla de fila: data-group="e1" -->
+              <div class="row">
+                <label><input type="checkbox" data-group="e1" data-item="Iluminación profesional" data-price="100000"> Iluminación profesional</label>
+                <select data-group-days="e1-Iluminación profesional">
+                  <option value="1">1 día</option><option value="2" selected>2 días</option>
+                </select>
+                <div class="price">$100.000/día</div>
+              </div>
+    
+              <div class="row">
+                <label><input type="checkbox" data-group="e1" data-item="Micrófonos" data-price="50000"> Micrófonos</label>
+                <select data-group-days="e1-Micrófonos">
+                  <option value="1">1 día</option><option value="2" selected>2 días</option>
+                </select>
+                <div class="price">$50.000/día</div>
+              </div>
+    
+              <div class="row">
+                <label><input type="checkbox" data-group="e1" data-item="iPhone 15 Pro Max" data-price="70000"> iPhone 15 Pro Max</label>
+                <select data-group-days="e1-iPhone 15 Pro Max">
+                  <option value="1">1 día</option><option value="2" selected>2 días</option>
+                </select>
+                <div class="price">$70.000/día</div>
+              </div>
+    
+              <div class="row">
+                <label><input type="checkbox" data-group="e1" data-item="Sony Alpha a7" data-price="150000"> Sony Alpha a7</label>
+                <select data-group-days="e1-Sony Alpha a7">
+                  <option value="1">1 día</option><option value="2" selected>2 días</option>
+                </select>
+                <div class="price">$150.000/día</div>
+              </div>
+    
+              <div class="row">
+                <label><input type="checkbox" data-group="e1" data-item="Cámara Blackmagic" data-price="350000"> Cámara Blackmagic (opcional)</label>
+                <select data-group-days="e1-Cámara Blackmagic">
+                  <option value="1" selected>1 día</option><option value="2">2 días</option>
+                </select>
+                <div class="price">$350.000/día</div>
+              </div>
+    
+              <div class="row">
+                <label><input type="checkbox" data-group="e1" data-item="Dron Mavic 3" data-price="300000"> Dron Mavic 3 (opcional)</label>
+                <select data-group-days="e1-Dron Mavic 3">
+                  <option value="1" selected>1 día</option><option value="2">2 días</option>
+                </select>
+                <div class="price">$300.000/día</div>
+              </div>
+    
+              <div class="row">
+                <label><input type="checkbox" data-group="e1" data-item="Piloto profesional" data-price="150000"> Piloto profesional (opcional)</label>
+                <select data-group-days="e1-Piloto profesional">
+                  <option value="1" selected>1 día</option><option value="2">2 días</option>
+                </select>
+                <div class="price">$150.000/día</div>
+              </div>
+    
+              <div class="row">
+                <label><input type="checkbox" data-group="e1" data-item="Cámara 360" data-price="250000"> Cámara 360 (opcional)</label>
+                <select data-group-days="e1-Cámara 360">
+                  <option value="1" selected>1 día</option><option value="2">2 días</option>
+                </select>
+                <div class="price">$250.000/día</div>
+              </div>
+    
+              <p class="subtot">Subtotal Equipo 1: <span id="sub-e1">$0</span></p>
+            </div>
+    
+            <!-- Equipo 2 -->
+            <div class="subcard" id="group-e2">
+              <h3>🎬 Equipo 2 – Institucional / Servicio (2 días)</h3>
+              <p class="muted">Selecciona recursos y cuántos días (1–2).</p>
+    
+              <div class="row">
+                <label><input type="checkbox" data-group="e2" data-item="Iluminación profesional" data-price="100000"> Iluminación profesional</label>
+                <select data-group-days="e2-Iluminación profesional">
+                  <option value="1">1 día</option><option value="2" selected>2 días</option>
+                </select>
+                <div class="price">$100.000/día</div>
+              </div>
+    
+              <div class="row">
+                <label><input type="checkbox" data-group="e2" data-item="Micrófonos" data-price="50000"> Micrófonos</label>
+                <select data-group-days="e2-Micrófonos">
+                  <option value="1">1 día</option><option value="2" selected>2 días</option>
+                </select>
+                <div class="price">$50.000/día</div>
+              </div>
+    
+              <div class="row">
+                <label><input type="checkbox" data-group="e2" data-item="iPhone 15 Pro Max" data-price="70000"> iPhone 15 Pro Max</label>
+                <select data-group-days="e2-iPhone 15 Pro Max">
+                  <option value="1">1 día</option><option value="2" selected>2 días</option>
+                </select>
+                <div class="price">$70.000/día</div>
+              </div>
+    
+              <div class="row">
+                <label><input type="checkbox" data-group="e2" data-item="Sony Alpha a7" data-price="150000"> Sony Alpha a7</label>
+                <select data-group-days="e2-Sony Alpha a7">
+                  <option value="1">1 día</option><option value="2" selected>2 días</option>
+                </select>
+                <div class="price">$150.000/día</div>
+              </div>
+    
+              <div class="row">
+                <label><input type="checkbox" data-group="e2" data-item="Cámara Blackmagic" data-price="350000"> Cámara Blackmagic (opcional)</label>
+                <select data-group-days="e2-Cámara Blackmagic">
+                  <option value="1" selected>1 día</option><option value="2">2 días</option>
+                </select>
+                <div class="price">$350.000/día</div>
+              </div>
+    
+              <div class="row">
+                <label><input type="checkbox" data-group="e2" data-item="Dron Mavic 3" data-price="300000"> Dron Mavic 3 (opcional)</label>
+                <select data-group-days="e2-Dron Mavic 3">
+                  <option value="1" selected>1 día</option><option value="2">2 días</option>
+                </select>
+                <div class="price">$300.000/día</div>
+              </div>
+    
+              <div class="row">
+                <label><input type="checkbox" data-group="e2" data-item="Piloto profesional" data-price="150000"> Piloto profesional (opcional)</label>
+                <select data-group-days="e2-Piloto profesional">
+                  <option value="1" selected>1 día</option><option value="2">2 días</option>
+                </select>
+                <div class="price">$150.000/día</div>
+              </div>
+    
+              <div class="row">
+                <label><input type="checkbox" data-group="e2" data-item="Cámara 360" data-price="250000"> Cámara 360 (opcional)</label>
+                <select data-group-days="e2-Cámara 360">
+                  <option value="1" selected>1 día</option><option value="2">2 días</option>
+                </select>
+                <div class="price">$250.000/día</div>
+              </div>
+    
+              <p class="subtot">Subtotal Equipo 2: <span id="sub-e2">$0</span></p>
+            </div>
+          </div>
+    
+          <!-- Columna derecha: Día 3 + Edición + Extras + Resumen -->
+          <div class="col">
+            <!-- Día 3 -->
+            <div class="subcard" id="group-d3">
+              <h3>🎭 Día 3 – Caso de seguridad (1 día)</h3>
+              <p class="muted">Selecciona recursos para la jornada de dramatización + solución (solo 1 día).</p>
+    
+              <div class="row">
+                <label><input type="checkbox" data-group="d3" data-item="Iluminación profesional" data-price="100000"> Iluminación profesional</label>
+                <select data-group-days="d3-Iluminación profesional" disabled>
+                  <option value="1" selected>1 día</option>
+                </select>
+                <div class="price">$100.000/día</div>
+              </div>
+    
+              <div class="row">
+                <label><input type="checkbox" data-group="d3" data-item="Micrófonos" data-price="50000"> Micrófonos</label>
+                <select data-group-days="d3-Micrófonos" disabled>
+                  <option value="1" selected>1 día</option>
+                </select>
+                <div class="price">$50.000/día</div>
+              </div>
+    
+              <div class="row">
+                <label><input type="checkbox" data-group="d3" data-item="iPhone 15 Pro Max" data-price="70000"> iPhone 15 Pro Max</label>
+                <select data-group-days="d3-iPhone 15 Pro Max" disabled>
+                  <option value="1" selected>1 día</option>
+                </select>
+                <div class="price">$70.000/día</div>
+              </div>
+    
+              <div class="row">
+                <label><input type="checkbox" data-group="d3" data-item="Sony Alpha a7" data-price="150000"> Sony Alpha a7</label>
+                <select data-group-days="d3-Sony Alpha a7" disabled>
+                  <option value="1" selected>1 día</option>
+                </select>
+                <div class="price">$150.000/día</div>
+              </div>
+    
+              <div class="row">
+                <label><input type="checkbox" data-group="d3" data-item="Cámara Blackmagic" data-price="350000"> Cámara Blackmagic (opcional)</label>
+                <select data-group-days="d3-Cámara Blackmagic" disabled>
+                  <option value="1" selected>1 día</option>
+                </select>
+                <div class="price">$350.000/día</div>
+              </div>
+    
+              <div class="row">
+                <label><input type="checkbox" data-group="d3" data-item="Dron Mavic 3" data-price="300000"> Dron Mavic 3 (opcional)</label>
+                <select data-group-days="d3-Dron Mavic 3" disabled>
+                  <option value="1" selected>1 día</option>
+                </select>
+                <div class="price">$300.000/día</div>
+              </div>
+    
+              <div class="row">
+                <label><input type="checkbox" data-group="d3" data-item="Piloto profesional" data-price="150000"> Piloto profesional (opcional)</label>
+                <select data-group-days="d3-Piloto profesional" disabled>
+                  <option value="1" selected>1 día</option>
+                </select>
+                <div class="price">$150.000/día</div>
+              </div>
+    
+              <div class="row">
+                <label><input type="checkbox" data-group="d3" data-item="Cámara 360" data-price="250000"> Cámara 360 (opcional)</label>
+                <select data-group-days="d3-Cámara 360" disabled>
+                  <option value="1" selected>1 día</option>
+                </select>
+                <div class="price">$250.000/día</div>
+              </div>
+    
+              <p class="subtot">Subtotal Día 3: <span id="sub-d3">$0</span></p>
+            </div>
+    
+            <!-- Edición -->
+            <div class="subcard" id="editCard">
+              <h3>🖥️ Tipo de edición</h3>
+              <div class="row">
+                <label><input type="radio" name="edicion" data-item="Edición Óptima (1 editor · 3 días)" data-price="600000" checked> Edición Óptima (1 editor · 3 días)</label>
+                <div class="price">$600.000</div>
+              </div>
+              <div class="row">
+                <label><input type="radio" name="edicion" data-item="Edición Avanzada (2 editores · 2 días)" data-price="700000"> Edición Avanzada (2 editores · 2 días)</label>
+                <div class="price">$700.000</div>
+              </div>
+            </div>
+    
+            <!-- Extras -->
+            <div class="subcard" id="extraCard">
+              <h3>🎁 Extras opcionales</h3>
+              <div class="row">
+                <label><input type="checkbox" data-item="Voz en off IA comercial" data-price="150000"> Voz en off IA comercial</label>
+                <div class="price">$150.000</div>
+              </div>
+              <div class="row">
+                <label><input type="checkbox" data-item="Animación extra personalizada" data-price="200000"> Animación extra personalizada</label>
+                <div class="price">$200.000</div>
+              </div>
+              <div class="row">
+                <label><input type="checkbox" data-item="Actores / locaciones externas (a cotizar)" data-price="0"> Actores / locaciones externas (a cotizar)</label>
+                <div class="price">A convenir</div>
+              </div>
+            </div>
+    
+            <!-- Resumen -->
+            <div class="totals" id="summaryCard">
+              <h3>💰 Resumen</h3>
+              <div class="line"><span>Producción base</span><strong id="sumFixed">$2’980.000</strong></div>
+              <div class="line"><span>Equipo 1 (tecnología)</span><strong id="sumE1">$0</strong></div>
+              <div class="line"><span>Equipo 2 (tecnología)</span><strong id="sumE2">$0</strong></div>
+              <div class="line"><span>Día 3 (tecnología)</span><strong id="sumD3">$0</strong></div>
+              <div class="line"><span>Edición</span><strong id="sumEdit">$600.000</strong></div>
+              <div class="line"><span>Extras</span><strong id="sumExtra">$0</strong></div>
+              <hr style="border:0; border-top:1px solid rgba(255,255,255,.2); margin:10px 0">
+              <div class="line grand"><span>Total estimado</span><strong id="grandTotal">$3’580.000</strong></div>
+              <div class="actions" style="margin-top:12px">
+                <button class="cta" id="sendQuoteWA">📲 Enviar por WhatsApp</button>
+                <button class="cta" id="resetQuote" style="background:#6B7280">↺ Reiniciar</button>
+              </div>
+              <p class="disclaimer">El total es estimado y puede variar según disponibilidad de equipos, logística y ajustes creativos.</p>
+              
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script>
+        
+        function openModal(id){
+      const m = document.getElementById(id);
+      if(m){
+        m.style.display = 'flex';   // OJO: usar flex para que se centre
+        m.setAttribute('aria-hidden','false');
+      }
+    }
+    
+    /* Utilidades de formato */
+    const COP = n => n.toLocaleString('es-CO');
+    const fmt = n => '$' + COP(n);
+    
+    /* Modal genérico */
+    function openModal(id){ const m=document.getElementById(id); if(m){ m.style.display='flex'; m.setAttribute('aria-hidden','false'); } }
+    function closeModal(id){ const m=document.getElementById(id); if(m){ m.style.display='none'; m.setAttribute('aria-hidden','true'); } }
+    document.addEventListener('click', (e)=>{
+      const toClose = e.target.getAttribute?.('data-close');
+      if(toClose) closeModal(toClose);
+      const m = e.target.closest('.modal');
+      if(m && e.target === m) m.style.display='none';
+    });
+    
+    
+    /* Modal galería */
+    const modalImg = document.getElementById("modal-img");
+    const modalTitle = document.getElementById("modal-title");
+    const modalDesc = document.getElementById("modal-desc");
+    document.querySelectorAll(".equipos-galeria img").forEach(img => {
+      img.addEventListener("click", () => {
+        openModal('modal');
+        modalImg.src = img.src;
+        modalTitle.textContent = img.dataset.title || '';
+        modalDesc.textContent = img.dataset.desc || '';
+      });
+    });
+    
+    /* Agendar reunión */
+    
+    document.getElementById('agendaForm').addEventListener('submit',(e)=>{
+      e.preventDefault();
+      const fecha = document.getElementById("fecha").value;
+      const hora  = document.getElementById("hora").value;
+      if(!fecha || !hora) return;
+    
+      const msg = `${cotizacionMsg}
+    
+    Además, quiero avanzar con esta cotización y me gustaría agendar una reunión virtual para definir los detalles el día ${fecha} a las ${hora}.
+    ¿Me confirmas disponibilidad, por favor}?`;
+    
+      const url = `https://wa.me/573202608864?text=${encodeURIComponent(msg)}`;
+      window.open(url,'_blank');
+      closeModal('agendaModal');
+    });
+    
+    
+    /* Cotizador avanzado por equipos */
+    const FIXED_BASE = 2530000 + 450000; // producción + transporte/alimentación
+    let e1Total = 0, e2Total = 0, d3Total = 0, editTotal = 600000, extraTotal = 0;
+    
+    const els = {
+      sumFixed: document.getElementById('sumFixed'),
+      sumE1: document.getElementById('sumE1'),
+      sumE2: document.getElementById('sumE2'),
+      sumD3: document.getElementById('sumD3'),
+      sumEdit: document.getElementById('sumEdit'),
+      sumExtra: document.getElementById('sumExtra'),
+      grand: document.getElementById('grandTotal'),
+    
+      // Subtotales visibles por grupo
+      subE1: document.getElementById('sub-e1'),
+      subE2: document.getElementById('sub-e2'),
+      subD3: document.getElementById('sub-d3'),
+    
+      // Inputs por grupo
+      gE1: Array.from(document.querySelectorAll('[data-group="e1"]')),
+      gE2: Array.from(document.querySelectorAll('[data-group="e2"]')),
+      gD3: Array.from(document.querySelectorAll('[data-group="d3"]')),
+    
+      // Selects de días
+      daySelects: Array.from(document.querySelectorAll('[data-group-days]')),
+    
+      // Edición
+      editRadios: Array.from(document.querySelectorAll('#editCard input[type="radio"]')),
+    
+      // Extras
+      extraChecks: Array.from(document.querySelectorAll('#extraCard input[type="checkbox"]'))
+    };
+    
+    function getDaysFor(group, item){
+      const sel = document.querySelector(`[data-group-days="${group}-${CSS.escape(item)}"]`);
+      if(!sel) return 0;
+      return Number(sel.value || 0);
+    }
+    
+    function groupSubtotal(groupCode){
+      const checks = Array.from(document.querySelectorAll(`[data-group="${groupCode}"]`));
+      let total = 0;
+      checks.forEach(chk=>{
+        if(chk.checked){
+          const price = Number(chk.dataset.price||0);
+          const item = chk.dataset.item;
+          const days = groupCode === 'd3' ? 1 : getDaysFor(groupCode, item); // día 3 siempre 1
+          total += price * days;
+        }
+      });
+      return total;
+    }
+    
+    
+    
+    function recalcAll(){
+      e1Total = groupSubtotal('e1');
+      e2Total = groupSubtotal('e2');
+      d3Total = groupSubtotal('d3');
+    
+      const editSel = els.editRadios.find(r=>r.checked);
+      editTotal = editSel ? Number(editSel.dataset.price||0) : 0;
+    
+      extraTotal = 0;
+      els.extraChecks.forEach(chk=>{ if(chk.checked) extraTotal += Number(chk.dataset.price||0); });
+    
+      // pintar subtotales por grupo
+      els.subE1.textContent = fmt(e1Total);
+      els.subE2.textContent = fmt(e2Total);
+      els.subD3.textContent = fmt(d3Total);
+    
+      // pintar resumen
+      els.sumFixed.textContent = fmt(FIXED_BASE);
+      els.sumE1.textContent = fmt(e1Total);
+      els.sumE2.textContent = fmt(e2Total);
+      els.sumD3.textContent = fmt(d3Total);
+      els.sumEdit.textContent = fmt(editTotal);
+      els.sumExtra.textContent = fmt(extraTotal);
+      els.grand.textContent   = fmt(FIXED_BASE + e1Total + e2Total + d3Total + editTotal + extraTotal);
+    }
+    
+    /* Listeners */
+    [...els.gE1, ...els.gE2, ...els.gD3, ...els.daySelects, ...els.editRadios, ...els.extraChecks].forEach(el=>{
+      el.addEventListener('change', recalcAll);
+    });
+    
+    /* Abrir modal cotizador */
+    document.getElementById('openQuote').addEventListener('click', ()=>{
+      recalcAll();
+      openModal('quoteModal');
+    });
+    
+    /* Reset cotizador */
+    document.getElementById('resetQuote').addEventListener('click', ()=>{
+      // desmarcar todos los checks de grupos y extras
+      [...els.gE1, ...els.gE2, ...els.gD3, ...els.extraChecks].forEach(c=>c.checked=false);
+      // reset edición a Óptima
+      const opt = els.editRadios[0]; if(opt) opt.checked = true;
+      // reset selects de días: e1/e2 a 2 días por defecto donde aplique; d3 siempre 1 día (ya está disabled)
+      els.daySelects.forEach(sel=>{
+        const [group, name] = sel.getAttribute('data-group-days').split('-');
+        if(group === 'e1' || group === 'e2'){
+          if([...sel.options].some(o=>o.value==='2')) sel.value = '2';
+        } else {
+          sel.value = '1';
+        }
+        
+        
+      });
+      recalcAll();
+    });
+    
+    
+    
+    /* Guardar cotización temporalmente para usarla en agenda */
+    let cotizacionMsg = '';
+    
+    document.getElementById('sendQuoteWA').addEventListener('click', ()=>{
+      function linesFor(groupCode, title){
+        const checks = Array.from(document.querySelectorAll(`[data-group="${groupCode}"]`));
+        const lines = [];
+        checks.forEach(chk=>{
+          if(chk.checked){
+            const item = chk.dataset.item;
+            const price = Number(chk.dataset.price||0);
+            const days = groupCode === 'd3' ? 1 : getDaysFor(groupCode, item);
+            const sub  = price * days;
+            lines.push(`- ${item} (${days} día${days>1?'s':''}): ${fmt(sub)}`);
+          }
+        });
+        const sum = groupCode==='e1'?e1Total:groupCode==='e2'?e2Total:d3Total;
+        return lines.length ? `\n*${title}:*\n${lines.join('\n')}\nSubtotal ${title}: ${fmt(sum)}` : '';
+      }
+    
+      const extraLines = [];
+      els.extraChecks.forEach(chk=>{
+        if(chk.checked){
+          const name = chk.dataset.item;
+          const price = Number(chk.dataset.price||0);
+          extraLines.push(`- ${name}: ${price ? fmt(price) : 'A convenir'}`);
+        }
+      });
+    
+      const editSel = els.editRadios.find(r=>r.checked);
+      const editName = editSel ? editSel.dataset.item : 'Edición';
+    
+      const total = FIXED_BASE + e1Total + e2Total + d3Total + editTotal + extraTotal;
+    
+      cotizacionMsg = [
+        'Hola, esta es mi *cotización personalizada* de la producción de videos corporativos:',
+        '',
+        `Producción base: ${fmt(FIXED_BASE)}`,
+        linesFor('e1','Equipo 1 (Testimonios)'),
+        linesFor('e2','Equipo 2 (Institucional/Servicio)'),
+        linesFor('d3','Día 3 (Caso de seguridad)'),
+        `\n*Edición:* ${editName} · ${fmt(editTotal)}`,
+        extraLines.length ? '\n*Extras:*' : '',
+        extraLines.join('\n'),
+        `\n*Total estimado:* ${fmt(total)}`
+      ].filter(Boolean).join('\n');
+    
+      // En vez de enviar, abrimos modal agenda
+      openModal('agendaModal');
+    });
+    
+    /* Enviar agenda + cotización */
+    document.getElementById('agendaForm').addEventListener('submit',(e)=>{
+      e.preventDefault();
+      const fecha = document.getElementById("fecha").value;
+      const hora  = document.getElementById("hora").value;
+      if(!fecha || !hora) return;
+    
+      const msg = `${cotizacionMsg}\n\nQuiero avanzar con la cotización y me gustaría agendar una reunión virtual para definir los detalles el día ${fecha} a las ${hora}. ¿Me confirmas disponibilidad, por favor?`;
+    
+      const url = `https://wa.me/573202608864?text=${encodeURIComponent(msg)}`;
+      window.open(url,'_blank');
+      closeModal('agendaModal');
+    });
+    
+ // Función para abrir el modal
+function openModal(id) {
+  const modal = document.getElementById(id);
+  if (modal) {
+    modal.style.display = 'flex';  // Hacer visible el modal
+    modal.setAttribute('aria-hidden', 'false');  // Cambiar a visible
+  }
+}
+
+// Función para cerrar el modal
+function closeModal(id) {
+  const modal = document.getElementById(id);
+  if (modal) {
+    modal.style.display = 'none';  // Hacer invisible el modal
+    modal.setAttribute('aria-hidden', 'true');  // Cambiar a oculto
+  }
+}
+
+
+
+// Agregar listeners a los videos
+document.querySelectorAll(".video-categoria").forEach(cat => {
+  cat.addEventListener("click", () => {
+    const category = cat.dataset.category;  // Obtener la categoría de la card
+    const videos = categorias[category];   // Obtener los videos asociados a esa categoría
+
+    openModal('videoModal');  // Abrir el modal de videos
+    modalTitle.textContent = category.charAt(0).toUpperCase() + category.slice(1);  // Establecer título del modal
+
+    // Primer video
+    modalPlayer.src = videos[0].src;
+    modalPlayer.play();
+
+    // Crear lista de videos
+    videoList.innerHTML = "";  // Limpiar la lista
+    videos.forEach(video => {
+      const li = document.createElement("li");
+      li.textContent = video.title;
+      li.style.cursor = "pointer";
+      li.style.marginBottom = "6px";
+      li.addEventListener("click", () => {
+        modalPlayer.src = video.src;  // Cambiar el video
+        modalPlayer.play();
+
+      });
+      videoList.appendChild(li);
+    });
+  });
+});
+
+// Cerrar el modal al hacer clic en la "X"
+const closeBtn = document.querySelector(".close");
+closeBtn.onclick = () => {
+  closeModal('videoModal');  // Cerrar el modal
+};
+
+// Cerrar el modal si haces clic fuera de él
+window.onclick = function(e) {
+  if (e.target === videoModal) {
+    closeModal('videoModal');  // Cerrar el modal
+  }
+};
+
+
+// Categorías de videos
+const categorias = {
+  drone: [
+    { title: "Drone 1", src: "/assets/videos/drone1.mp4" },
+    { title: "Drone 2", src: "/assets/videos/drone2.mp4" }
+  ],
+  airbnb: [
+  { title: "El Gran Cañón", src: "/assets/contenido-para-redes-sociales/airbnb/canon.mp4" },
+  { title: "El Gran Cañón - Ubicación", src: "/assets/contenido-para-redes-sociales/airbnb/ubicacioncanon.mp4" },
+  { title: "El Hechizo - Día", src: "/assets/contenido-para-redes-sociales/airbnb/promonoche.mp4" }, 
+  { title: "El Hechizo - Noche", src: "/assets/contenido-para-redes-sociales/airbnb/elhechizodia.mp4" },
+  { title: "El Hechizo - Ubicación", src: "/assets/contenido-para-redes-sociales/airbnb/ubicacionhechizo.mp4" },
+  { title: "Ciudad de la Memoria", src: "/assets/contenido-para-redes-sociales/airbnb/ciudad.mp4" },
+  { title: "Tunwuacogua", src: "/assets/contenido-para-redes-sociales/airbnb/tunwuacogua.mp4" }
+],
+
+  institucionales: [
+    { title: "Institucional 1", src: "/assets/videos/institucional1.mp4" },
+    { title: "Institucional 2", src: "/assets/videos/institucional2.mp4" }
+  ],
+  animaciones: [
+    { title: "Animación 1", src: "/assets/videos/animacion1.mp4" },
+    { title: "Animación 2", src: "/assets/videos/animacion2.mp4" }
+  ],
+  redes: [
+    { title: "Contenido Redes 1", src: "/assets/videos/redes1.mp4" },
+    { title: "Contenido Redes 2", src: "/assets/videos/redes2.mp4" }
+  ],
+  ia: [
+    { title: "Video con IA 1", src: "/assets/videos/ia1.mp4" },
+    { title: "Video con IA 2", src: "/assets/videos/ia2.mp4" }
+  ],
+  videoclips: [
+    { title: "Videoclip 1", src: "/assets/videos/videoclip1.mp4" },
+    { title: "Videoclip 2", src: "/assets/videos/videoclip2.mp4" }
+  ],
+  ra: [
+    { title: "Realidad Aumentada 1", src: "/assets/videos/ra1.mp4" },
+    { title: "Realidad Aumentada 2", src: "/assets/videos/ra2.mp4" }
+  ]
+};
+
+    
+    
+    /* Inicializar */
+    recalcAll();
+    
+    
+    </script>
+    
+    </body>
+    </html>

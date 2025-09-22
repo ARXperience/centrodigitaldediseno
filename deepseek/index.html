@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrenamiento Rápido de Bot</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --success: #10b981;
+            --border: #e2e8f0;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .subtitle {
+            color: var(--secondary);
+            margin-bottom: 2rem;
+        }
+
+        .wizard-container {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            display: flex;
+            height: 8px;
+            background-color: var(--border);
+        }
+
+        .progress {
+            height: 100%;
+            background-color: var(--primary);
+            transition: var(--transition);
+            width: 0%;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            padding: 1.5rem 2rem;
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            flex: 1;
+        }
+
+        .step:not(:last-child):after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: -50%;
+            width: 100%;
+            height: 2px;
+            background-color: var(--border);
+            z-index: 1;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--border);
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step.active .step-number {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .step.completed .step-number {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .step-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--secondary);
+            text-align: center;
+        }
+
+        .step.active .step-label {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .step-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .step-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background-color: #475569;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .file-upload {
+            border: 2px dashed var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .file-upload:hover {
+            border-color: var(--primary);
+        }
+
+        .file-upload p {
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .url-input {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .url-input input {
+            flex: 1;
+        }
+
+        .source-list {
+            margin-top: 1.5rem;
+        }
+
+        .source-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background-color: #f8fafc;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        .training-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .status-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #10b981;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .chat-container {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .chat-messages {
+            height: 300px;
+            overflow-y: auto;
+            padding: 1rem;
+            background-color: #f8fafc;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            max-width: 80%;
+        }
+
+        .user-message {
+            margin-left: auto;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.75rem;
+            border-radius: 18px 18px 4px 18px;
+        }
+
+        .bot-message {
+            background-color: white;
+            padding: 0.75rem;
+            border-radius: 18px 18px 18px 4px;
+            border: 1px solid var(--border);
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .chat-input input {
+            flex: 1;
+            margin-right: 0.5rem;
+        }
+
+        .success-checkmark {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background-color: var(--success);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            margin-right: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .steps {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .step:not(:last-child):after {
+                display: none;
+            }
+            
+            .url-input {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Entrenamiento Rápido de Bot</h1>
+            <p class="subtitle">Cuatro pasos simples para crear tu asistente inteligente</p>
+        </header>
+
+        <div class="wizard-container">
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+
+            <div class="steps">
+                <div class="step active" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Configurar</div>
+                </div>
+                <div class="step" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Alimentar</div>
+                </div>
+                <div class="step" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Entrenar</div>
+                </div>
+                <div class="step" data-step="4">
+                    <div class="step-number">4</div>
+                    <div class="step-label">Probar</div>
+                </div>
+            </div>
+
+            <div class="content">
+                <!-- Paso 1: Configuración -->
+                <div class="step-content active" data-step="1">
+                    <h2>Configura tu bot</h2>
+                    <div class="form-group">
+                        <label for="bot-name">Nombre del bot</label>
+                        <input type="text" id="bot-name" placeholder="Ej: Asistente Virtual">
+                    </div>
+                    <div class="form-group">
+                        <label for="bot-purpose">Propósito principal</label>
+                        <textarea id="bot-purpose" placeholder="Describe qué debe hacer tu bot, por ejemplo: 'Ayudar a clientes con información sobre productos y servicios'"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="bot-tone">Tono de comunicación</label>
+                        <select id="bot-tone">
+                            <option value="formal">Formal y profesional</option>
+                            <option value="friendly" selected>Amigable y cercano</option>
+                            <option value="technical">Técnico y preciso</option>
+                            <option value="casual">Informal y relajado</option>
+                        </select>
+                    </div>
+                    <div class="navigation">
+                        <div></div>
+                        <button class="btn" onclick="nextStep(2)">Siguiente</button>
+                    </div>
+                </div>
+
+                <!-- Paso 2: Fuentes de información -->
+                <div class="step-content" data-step="2">
+                    <h2>Agrega información a tu bot</h2>
+                    <p>Sube documentos o agrega URLs para que tu bot aprenda de ellos.</p>
+                    
+                    <div class="file-upload" onclick="document.getElementById('file-input').click()">
+                        <p>Haz clic para subir documentos</p>
+                        <button class="btn btn-secondary">Seleccionar archivos</button>
+                        <input type="file" id="file-input" multiple style="display: none;">
+                    </div>
+                    
+                    <p class="form-group" style="text-align: center;">o</p>
+                    
+                    <div class="form-group">
+                        <label>Agregar URL de sitio web</label>
+                        <div class="url-input">
+                            <input type="url" id="url-input" placeholder="https://ejemplo.com">
+                            <button class="btn btn-secondary" onclick="addUrl()">Agregar</button>
+                        </div>
+                    </div>
+                    
+                    <div class="source-list" id="source-list">
+                        <div class="source-item">
+                            <span>No has agregado fuentes aún</span>
+                        </div>
+                    </div>
+                    
+                    <div class="navigation">
+                        <button class="btn btn-secondary" onclick="prevStep(1)">Atrás</button>
+                        <button class="btn" onclick="nextStep(3)">Siguiente</button>
+                    </div>
+                </div>
+
+                <!-- Paso 3: Entrenamiento -->
+                <div class="step-content" data-step="3">
+                    <h2>Entrenar bot</h2>
+                    <div class="training-status">
+                        <div class="status-icon">✓</div>
+                        <h3>¡Listo para entrenar!</h3>
+                        <p>Haz clic en el botón para construir el índice de conocimiento de tu bot.</p>
+                        <button class="btn" style="margin-top: 1rem;" onclick="trainBot()">Entrenar bot</button>
+                    </div>
+                    
+                    <div class="navigation">
+                        <button class="btn btn-secondary" onclick="prevStep(2)">Atrás</button>
+                        <button class="btn" onclick="nextStep(4)">Siguiente</button>
+                    </div>
+                </div>
+
+                <!-- Paso 4: Prueba -->
+                <div class="step-content" data-step="4">
+                    <h2>Prueba tu bot</h2>
+                    <p>Interactúa con tu bot para ver cómo responde según la información proporcionada.</p>
+                    
+                    <div class="chat-container">
+                        <div class="chat-messages" id="chat-messages">
+                            <div class="message bot-message">
+                                ¡Hola! Soy tu nuevo asistente. ¿En qué puedo ayudarte?
+                            </div>
+                        </div>
+                        <div class="chat-input">
+                            <input type="text" id="user-input" placeholder="Escribe tu mensaje...">
+                            <button class="btn" onclick="sendMessage()">Enviar</button>
+                        </div>
+                    </div>
+                    
+                    <div class="navigation">
+                        <button class="btn btn-secondary" onclick="prevStep(3)">Atrás</button>
+                        <button class="btn" onclick="exportBot()">Exportar bot</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Estado de la aplicación
+        const state = {
+            currentStep: 1,
+            botConfig: {
+                name: '',
+                purpose: '',
+                tone: 'friendly'
+            },
+            sources: {
+                files: [],
+                urls: []
+            },
+            trained: false
+        };
+
+        // Navegación entre pasos
+        function updateProgress() {
+            const progress = document.getElementById('progress');
+            const percentage = ((state.currentStep - 1) / 3) * 100;
+            progress.style.width = `${percentage}%`;
+            
+            // Actualizar indicadores de pasos
+            document.querySelectorAll('.step').forEach((step, index) => {
+                const stepNum = index + 1;
+                if (stepNum < state.currentStep) {
+                    step.classList.add('completed');
+                    step.classList.remove('active');
+                } else if (stepNum === state.currentStep) {
+                    step.classList.add('active');
+                    step.classList.remove('completed');
+                } else {
+                    step.classList.remove('active', 'completed');
+                }
+            });
+            
+            // Mostrar/ocultar contenido del paso actual
+            document.querySelectorAll('.step-content').forEach(content => {
+                if (parseInt(content.dataset.step) === state.currentStep) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
+                }
+            });
+        }
+
+        function nextStep(step) {
+            // Validar paso actual antes de avanzar
+            if (state.currentStep === 1) {
+                state.botConfig.name = document.getElementById('bot-name').value;
+                state.botConfig.purpose = document.getElementById('bot-purpose').value;
+                state.botConfig.tone = document.getElementById('bot-tone').value;
+                
+                if (!state.botConfig.name || !state.botConfig.purpose) {
+                    alert('Por favor, completa todos los campos obligatorios.');
+                    return;
+                }
+            }
+            
+            state.currentStep = step;
+            updateProgress();
+        }
+
+        function prevStep(step) {
+            state.currentStep = step;
+            updateProgress();
+        }
+
+        // Gestión de fuentes
+        function addUrl() {
+            const urlInput = document.getElementById('url-input');
+            const url = urlInput.value.trim();
+            
+            if (!url) return;
+            
+            state.sources.urls.push(url);
+            urlInput.value = '';
+            updateSourceList();
+        }
+
+        function updateSourceList() {
+            const sourceList = document.getElementById('source-list');
+            sourceList.innerHTML = '';
+            
+            if (state.sources.files.length === 0 && state.sources.urls.length === 0) {
+                sourceList.innerHTML = '<div class="source-item"><span>No has agregado fuentes aún</span></div>';
+                return;
+            }
+            
+            state.sources.files.forEach(file => {
+                const item = document.createElement('div');
+                item.className = 'source-item';
+                item.innerHTML = `
+                    <span>${file.name}</span>
+                    <button onclick="removeFile('${file.name}')">Eliminar</button>
+                `;
+                sourceList.appendChild(item);
+            });
+            
+            state.sources.urls.forEach((url, index) => {
+                const item = document.createElement('div');
+                item.className = 'source-item';
+                item.innerHTML = `
+                    <span>${url}</span>
+                    <button onclick="removeUrl(${index})">Eliminar</button>
+                `;
+                sourceList.appendChild(item);
+            });
+        }
+
+        function removeFile(fileName) {
+            state.sources.files = state.sources.files.filter(file => file.name !== fileName);
+            updateSourceList();
+        }
+
+        function removeUrl(index) {
+            state.sources.urls.splice(index, 1);
+            updateSourceList();
+        }
+
+        // Manejo de subida de archivos
+        document.getElementById('file-input').addEventListener('change', function(e) {
+            const files = Array.from(e.target.files);
+            state.sources.files = state.sources.files.concat(files);
+            updateSourceList();
+        });
+
+        // Entrenamiento del bot
+        function trainBot() {
+            // Simular proceso de entrenamiento
+            const trainingStatus = document.querySelector('.training-status');
+            trainingStatus.innerHTML = `
+                <div style="margin-bottom: 1rem;">
+                    <div style="width: 50px; height: 50px; border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto;"></div>
+                </div>
+                <h3>Entrenando tu bot...</h3>
+                <p>Esto puede tomar unos momentos.</p>
+            `;
+            
+            // Simular tiempo de entrenamiento
+            setTimeout(() => {
+                trainingStatus.innerHTML = `
+                    <div class="status-icon">✓</div>
+                    <h3>¡Entrenamiento completado!</h3>
+                    <p>Tu bot ahora está listo para responder preguntas.</p>
+                `;
+                state.trained = true;
+            }, 2000);
+        }
+
+        // Chat con el bot
+        function sendMessage() {
+            const input = document.getElementById('user-input');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            const chatMessages = document.getElementById('chat-messages');
+            
+            // Agregar mensaje del usuario
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message user-message';
+            userMessage.textContent = message;
+            chatMessages.appendChild(userMessage);
+            
+            // Limpiar input
+            input.value = '';
+            
+            // Simular respuesta del bot
+            setTimeout(() => {
+                const botMessage = document.createElement('div');
+                botMessage.className = 'message bot-message';
+                
+                // Respuesta simple basada en palabras clave
+                if (message.toLowerCase().includes('hola') || message.toLowerCase().includes('buenos días') || message.toLowerCase().includes('buenas tardes')) {
+                    botMessage.textContent = '¡Hola! ¿En qué puedo ayudarte hoy?';
+                } else if (message.toLowerCase().includes('nombre')) {
+                    botMessage.textContent = `Mi nombre es ${state.botConfig.name || 'tu asistente virtual'}.`;
+                } else if (message.toLowerCase().includes('gracias')) {
+                    botMessage.textContent = '¡De nada! Estoy aquí para ayudarte cuando me necesites.';
+                } else {
+                    botMessage.textContent = 'He procesado tu solicitud. ¿Hay algo más en lo que pueda ayudarte?';
+                }
+                
+                chatMessages.appendChild(botMessage);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1000);
+            
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Exportar bot
+        function exportBot() {
+            alert('¡Bot exportado con éxito! Puedes implementarlo en tu sitio web.');
+        }
+
+        // Inicializar
+        document.getElementById('user-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        updateProgress();
+    </script>
+    <script src="app.js"></script>
+</body>
+</html>

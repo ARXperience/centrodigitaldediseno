@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Brillos & Estilos Scharitin — Salón de Belleza en Duitama</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* -------- RESET -------- */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: 'Helvetica Neue', Arial, sans-serif; background:#fff; color:#111; line-height:1.6; }
+    h1,h2,h3,h4 { font-family: 'Arial Black', sans-serif; letter-spacing:0.5px; }
+
+    /* -------- HEADER -------- */
+    header {
+      background:#fff; padding:20px 10%; display:flex;
+      justify-content:space-between; align-items:center; border-bottom:1px solid #eee;
+      position:sticky; top:0; z-index:999;
+    }
+    header .logo { font-size:20px; font-weight:700; color:#111; }
+    header nav a {
+      margin-left:20px; text-decoration:none; font-weight:600; color:#111; text-transform:uppercase;
+    }
+    header nav a:hover { color:#d62828; }
+
+    /* -------- HERO -------- */
+    .hero {
+      position:relative; height:90vh;
+      background:url('https://wella.bynder.com/transform/8095522c-88c6-4bc9-ae48-b79f76b122a6/WLA_RGB_NS_05_MARIA_3492?io=transform:fit,width:1920&quality=85') center/cover no-repeat;
+      display:flex; align-items:center; padding-left:10%;
+      color:#fff;
+    }
+    .hero h2 { font-size:56px; max-width:500px; line-height:1.1; text-transform:uppercase; }
+    .hero p { font-size:20px; margin-top:20px; }
+    .btn {
+      display:inline-block; margin-top:25px; padding:14px 32px;
+      background:#d62828; color:#fff; font-weight:700; text-decoration:none; border-radius:4px;
+    }
+    .btn:hover { background:#e63946; }
+
+    /* -------- BLOQUES -------- */
+    section { padding:90px 10%; }
+    section h2 { text-align:center; font-size:40px; margin-bottom:50px; }
+
+    /* -------- INFO DESTACADA -------- */
+    .highlight { text-align:center; }
+    .highlight h2 { font-size:46px; }
+    .highlight p { font-size:18px; margin-top:15px; color:#555; }
+    .highlight .btn { margin-top:30px; }
+
+    /* -------- SERVICIOS -------- */
+    .services {
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:40px;
+    }
+    .services .item {
+      background:#fafafa; border-radius:8px; overflow:hidden;
+      box-shadow:0 4px 12px rgba(0,0,0,0.05); transition:transform .3s;
+    }
+    .services .item:hover { transform:scale(1.02); }
+    .services img { height:240px; width:100%; object-fit:cover; }
+    .services h3 { margin:20px; font-size:22px; }
+    .services p { margin:0 20px 30px; color:#444; }
+    
+         /* -------- CATÁLOGO DETALLADO (NUEVOS ESTILOS) -------- */
+    #catalogo { background-color: #fdfdfd; }
+    .service-category { margin-bottom: 60px; }
+    .service-category h3 {
+        font-size: 28px;
+        text-align: center;
+        margin-bottom: 40px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #d62828;
+        display: inline-block;
+        width: auto;
+        left: 50%;
+        position: relative;
+        transform: translateX(-50%);
+    }
+    .service-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+    }
+    .service-detail-item {
+        background: #fff;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        padding: 30px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+    .service-detail-item h4 { font-size: 22px; margin-bottom: 15px; color: #111; }
+    .service-detail-item p, .service-detail-item ul { color: #444; margin-bottom: 15px; }
+    .service-detail-item ul { padding-left: 20px; }
+    .service-detail-item strong { color: #111; font-family: 'Helvetica Neue', Arial, sans-serif; }
+    .price-info {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+    }
+    .price-info p { margin-bottom: 5px; font-size: 16px; }
+
+    /* -------- GALERÍA -------- */
+    .gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
+    .gallery img { border-radius:8px; height:220px; object-fit:cover; width:100%; transition:transform .3s; }
+    .gallery img:hover { transform:scale(1.05); }
+
+  /* -------- VIDEO -------- */
+    .video-section {
+      position:relative; height:70vh; overflow:hidden;
+    }
+    .video-section video {
+      position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover;
+    }
+    .video-overlay {
+      position:absolute; top:0; left:0; width:100%; height:100%;
+      background:rgba(0,0,0,0.4); display:flex; align-items:center; justify-content:center;
+      color:#fff; text-align:center; flex-direction:column; padding:20px;
+    }
+    .video-overlay h2 { font-size:44px; }
+    .video-overlay p { font-size:20px; max-width:600px; }
+
+    /* -------- FAQ -------- */
+    .faq details {
+      background:#f8f8f8; border:1px solid #ddd; border-radius:6px; padding:15px; margin-bottom:12px;
+    }
+    .faq summary { cursor:pointer; font-weight:700; }
+
+    /* -------- CONTACTO -------- */
+    #contacto p { margin-bottom:10px; }
+
+    /* -------- FOOTER -------- */
+    footer {
+      background:#111; color:#ccc; padding:50px 10%; text-align:center;
+    }
+    footer a { color:#e63946; text-decoration:none; }
+    
+   
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">Brillos & Estilos Scharitin</div>
+    <nav>
+      <a href="#nosotros">Nosotros</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#galeria">Galería</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <h2>Anti-Frizz. Suavidad y Control 90 Días.</h2>
+      <p>Peinado sin esfuerzo, brillo y fuerza todos los días.</p>
+      <a href="https://wa.me/573232030062" class="btn">Reserva ahora</a>
+    </div>
+  </section>
+
+  <!-- HIGHLIGHT -->
+  <section class="highlight">
+    <h2>La marca #1 en resultados de belleza en Duitama</h2>
+    <p>Nuestra gama de tratamientos y servicios está diseñada para elevar tu estilo y darte confianza en cada visita.</p>
+    <a href="#servicios" class="btn">Descubre nuestros servicios</a>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section id="servicios">
+    <h2>Servicios</h2>
+    <div class="services">
+      <div class="item">
+        <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=800" alt="Tratamientos Capilares">
+        <h3>Tratamientos Capilares</h3>
+        <p>Botox, keratina, ozono y fotónica. Para un cabello suave, nutrido y lleno de vida.</p>
+      </div>
+      <div class="item">
+        <img src="https://images.unsplash.com/photo-1522336572468-97b06e8ef143?q=80&w=800" alt="Maquillaje Profesional">
+        <h3>Maquillaje Profesional</h3>
+        <p>Especial para novias, grados y eventos. Estilos personalizados con pruebas previas.</p>
+      </div>
+      <div class="item">
+        <img src="https://images.unsplash.com/photo-1599940824399-b87987ceb72a?q=80&w=800" alt="Pestañas y Cejas">
+        <h3>Pestañas & Cejas</h3>
+        <p>Extensiones pelo a pelo, laminado y henna para un acabado natural.</p>
+      </div>
+      
+            <div class="item">
+        <img src="https://images.unsplash.com/photo-1599940824399-b87987ceb72a?q=80&w=800" alt="Pestañas y Cejas">
+        <h3>Pestañas & Cejas</h3>
+        <p>Extensiones pelo a pelo, laminado y henna para un acabado natural.</p>
+      </div>
+      
+            <div class="item">
+        <img src="https://images.unsplash.com/photo-1599940824399-b87987ceb72a?q=80&w=800" alt="Pestañas y Cejas">
+        <h3>Pestañas & Cejas</h3>
+        <p>Extensiones pelo a pelo, laminado y henna para un acabado natural.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEO -->
+  <section class="video-section">
+    <video autoplay muted loop>
+      <source src="https://media.istockphoto.com/id/1989633075/video/super-slow-motion-of-flowing-brown-hair.mp4?s=mp4-640x640-is&k=20&c=qMrjmFBjYoo15ImcqILq4szI7SDispYLZSfaneRcXd8=" type="video/mp4">
+    </video>
+    <div class="video-overlay">
+      <h2>Ultimate Repair Miracle</h2>
+      <p>Fortalece y repara tu cabello en profundidad, sin apelmazar. Resultados visibles desde la primera aplicación.</p>
+    </div>
+  </section>
+
+  <!-- GALERIA -->
+  <section id="galeria">
+    <h>Galería</h2>
+    <div class="gallery">
+      <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=600" alt="Cabello brillante">
+        <p>Fortalece y repara tu cabello en profundidad, sin apelmazar. Resultados visibles desde la primera aplicación.</p>
+      <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=600" alt="Maquillaje">
+       
+        <p>en profundidad, sin apelmazar. Resultados visibles desde la primera aplicación.</p>
+      <img src="data:image/jpeg;base64,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" alt="Uñas">
+        <p>Fortalece y repara tu cabello en profundidad, sin apelmazar. Resultados visibles desde la primera aplicación.</p>
+      <img src="data:image/jpeg;base64,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" alt="Peinado">
+        <p>Fortalece y repara tu cabello en profundidad, sin apelmazar. Resultados visibles desde la primera aplicación.</p>
+    </div>
+  </section>
+  
+    <section id="catalogo">
+    <h2>Catálogo Detallado de Servicios</h2>
+
+    <div class="service-category">
+      <h3>TRATAMIENTOS CAPILARES</h3>
+      <div class="service-grid">
+        <div class="service-detail-item">
+          <h4>Tratamientos Generales</h4>
+          <p>Resultados espectaculares para un cabello suave, radiante y con textura y brillo mejorados.</p>
+          <strong>Efectos:</strong>
+          <ul>
+            <li>Cabello suave y manejable.</li>
+            <li>Reducción del frizz y la estática.</li>
+            <li>Mejora del brillo y la textura.</li>
+            <li>Protección contra daños ambientales.</li>
+          </ul>
+          <div class="price-info">
+            <p><strong>Precio Promoción:</strong> 120.000 pesos.</p>
+            <p><strong>Precio Normal:</strong> 200.000 a 250.000 pesos (según largo).</p>
+          </div>
+        </div>
+        <div class="service-detail-item">
+          <h4>Hidratación Profunda y Planchado</h4>
+          <p>Aplicamos un bálsamo específico, termoprotector y finalizamos con secado y planchado profesional.</p>
+          <strong>Beneficios:</strong>
+          <ul>
+            <li>Atención personalizada y profesionales calificados.</li>
+            <li>Adaptamos productos y técnicas a tu cabello.</li>
+            <li>Resultado impecable, suave y brillante.</li>
+          </ul>
+          <div class="price-info">
+            <p><strong>Precio Promoción:</strong> 20.000 pesos.</p>
+            <p><strong>Precio Normal:</strong> 30.000 pesos (según volumen).</p>
+          </div>
+        </div>
+        <div class="service-detail-item">
+          <h4>Botox Capilar Liso Perfecto</h4>
+          <p>Tratamiento con aceite de coco, miel y aguacate para un liso perfecto, fuerte e hidratado.</p>
+          <strong>Beneficios:</strong>
+          <ul>
+            <li>Logra un cabello liso y fortalecido.</li>
+            <li>Hidrata y nutre en profundidad.</li>
+            <li>Repara el cabello dañado.</li>
+          </ul>
+          <div class="price-info">
+            <p><strong>Precio Promoción:</strong> 50.000 pesos.</p>
+            <p><strong>Precio Normal:</strong> 60.000 a 80.000 pesos (según largo).</p>
+          </div>
+        </div>
+        <div class="service-detail-item">
+            <h4>Hidratación con Vapor de Ozono</h4>
+            <p>Ideal para cabellos sometidos a químicos. El vapor abre las cutículas para una hidratación profunda.</p>
+            <strong>Beneficios:</strong>
+            <ul>
+                <li>Hidratación intensa y regeneración.</li>
+                <li>Reducción del frizz y mejora del brillo.</li>
+                <li>Restauración de la elasticidad natural.</li>
+            </ul>
+            <div class="price-info">
+                <p><strong>Precio Promoción:</strong> 35.000 pesos.</p>
+                <p><strong>Precio Normal:</strong> 50.000 pesos.</p>
+            </div>
+        </div>
+        <div class="service-detail-item">
+            <h4>Hidratación Fotónica con Láser</h4>
+            <p>Tecnología de luz (azul, roja y verde) para potenciar la hidratación, estimular el crecimiento y renovar el colágeno.</p>
+            <strong>Beneficios:</strong>
+            <ul>
+                <li>Acelera procesos químicos y penetración de productos.</li>
+                <li>Fortalece la fibra, reduce la caída y estimula el crecimiento.</li>
+                <li>Devuelve el brillo y la suavidad natural.</li>
+            </ul>
+            <div class="price-info">
+                <p>Resultados duraderos en sesiones de 30 a 60 minutos.</p>
+            </div>
+        </div>
+        <div class="service-detail-item">
+            <h4>Keratina Blindaje de Argán</h4>
+            <p>Con carbón activo para una hidratación profunda, regeneración y acción antioxidante.</p>
+            <strong>Beneficios:</strong>
+            <ul>
+                <li>Hidratación de raíz a puntas.</li>
+                <li>Reestructura el cabello dejándolo suave.</li>
+                <li>Protege contra daños ambientales.</li>
+                <li>Resultados de 6 a 8 meses con garantía del 100%.</li>
+            </ul>
+            <div class="price-info">
+                <p><strong>Precio Promoción:</strong> 100.000 pesos.</p>
+                <p><strong>Precio Normal:</strong> 150.000 a 200.000 pesos.</p>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-category">
+      <h3>MAQUILLAJE PROFESIONAL</h3>
+      <div class="service-grid">
+        <div class="service-detail-item">
+          <h4>Maquillaje para Toda Ocasión</h4>
+          <p>Ofrecemos servicios de maquillaje profesional adaptados a tus necesidades para que luzcas espectacular.</p>
+          <strong>Nuestros servicios incluyen:</strong>
+          <ul>
+            <li>Maquillaje para Grados y eventos académicos.</li>
+            <li>Maquillaje para Eventos sociales y fiestas.</li>
+            <li>Maquillaje especial para Quinceañeras.</li>
+            <li>Maquillaje de Bodas para novias.</li>
+          </ul>
+          <div class="price-info">
+            <p>El precio y la duración dependen del modelo y estilo elegido.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-category">
+        <h3>PESTAÑAS & CEJAS</h3>
+        <div class="service-grid">
+            <div class="service-detail-item">
+                <h4>Pestañas Punto a Punto Postizas</h4>
+                <p>Con una duración de 2 a 4 semanas. No es necesario agendar cita previa.</p>
+                <strong>Estilos y Precios:</strong>
+                <ul>
+                    <li><strong>Clásicas:</strong> Promo 15.000 / Normal 20.000</li>
+                    <li><strong>Volumen Ruso:</strong> Promo 20.000 / Normal 25.000</li>
+                    <li><strong>Con Color:</strong> Promo 25.000 / Normal 30.000</li>
+                </ul>
+            </div>
+            <div class="service-detail-item">
+                <h4>Pestañas Pelo a Pelo (Anime y Muñeca)</h4>
+                <p>Luce una mirada de impacto con nuestros estilos inspirados en la estética anime y de muñeca.</p>
+                <strong>Beneficios:</strong>
+                <ul>
+                    <li><strong>Pelo a Pelo:</strong> Duración de 3 a 4 meses.</li>
+                    <li><strong>Anime/Muñeca:</strong> Look dramático, femenino e impactante.</li>
+                    <li>Servicio con garantía siguiendo los cuidados.</li>
+                </ul>
+                <div class="price-info">
+                    <p><strong>Precio Promoción:</strong> 35.000 pesos.</p>
+                    <p><strong>Precio Normal:</strong> 50.000 pesos.</p>
+                </div>
+            </div>
+            <div class="service-detail-item">
+                <h4>Epilación y Laminado de Cejas</h4>
+                <p>Define y ordena tus cejas para un look pulido y natural.</p>
+                <strong>Servicios:</strong>
+                <ul>
+                    <li><strong>Epilación y sombreado con henna:</strong> 15.000 pesos (dura 10-15 días).</li>
+                    <li><strong>Laminado de cejas:</strong> Promo 30.000 / Normal 45.000 (dura 2-4 semanas).</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+      
+    <div class="service-category">
+        <h3>UÑAS Y PEINADOS</h3>
+        <div class="service-grid">
+            <div class="service-detail-item">
+                <h4>Uñas con Dipping Gel</h4>
+                <p>Disfruta de uñas con alta durabilidad y resistencia, con una infinidad de diseños personalizables.</p>
+                <strong>Características:</strong>
+                <ul>
+                    <li>Técnica duradera y resistente.</li>
+                    <li>Variedad de colores y diseños.</li>
+                    <li>Cuidado profesional para tus uñas.</li>
+                </ul>
+                <div class="price-info">
+                    <p>El precio depende del diseño y estilo elegido.</p>
+                </div>
+            </div>
+            <div class="service-detail-item">
+                <h4>Peinados para Toda Ocasión</h4>
+                <p>Realizamos desde peinados casuales hasta recogidos elegantes para tus eventos más importantes.</p>
+                <strong>Especialidades:</strong>
+                <ul>
+                    <li>Peinados con Kanekalon (trenzas africanas).</li>
+                    <li>Peinados con diademas y accesorios.</li>
+                    <li>Peinados para grados, quinceañeras y bodas.</li>
+                </ul>
+                 <div class="price-info">
+                    <p>La duración y el precio dependen de la complejidad del peinado.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="faq">
+    <h2>Preguntas Frecuentes</h2>
+    <details><summary>¿Atienden con cita previa?</summary><p>Sí, gestionamos todo por WhatsApp. Diagnóstico previo en el salón.</p></details>
+    <details><summary>¿Cuánto dura la keratina?</summary><p>De 6 a 8 meses, dependiendo de cuidados y tipo de cabello.</p></details>
+    <details><summary>¿Tienen garantía en pestañas?</summary><p>Sí, con mantenimiento y cuidados recomendados.</p></details>
+    <details><summary>¿Puedo ir con niños?</summary><p>No, trabajamos sin niños por manejo de químicos con olores fuertes.</p></details>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <h2>Contacto</h2>
+    <p><strong>Dirección:</strong> Calle 16 #18-59, 2do piso, Duitama, Boyacá.</p>
+    <p><strong>Teléfono:</strong> <a href="https://wa.me/573232030062">+57 323 203 0062</a></p>
+    <p><strong>Instagram:</strong> @salonscharitin · <strong>TikTok:</strong> @brillosyestiloscharitin</p>
+    <p><strong>Horario:</strong> Lunes-Sábado 7:30 AM-7:00 PM · Festivos normal · Domingos no laboramos</p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 Brillos & Estilos Scharitin — Duitama · Colombia</p>
+    <p><a href="#faq">Preguntas frecuentes</a> · <a href="#contacto">Contáctanos</a></p>
+  </footer>
+
+</body>
+</html>
